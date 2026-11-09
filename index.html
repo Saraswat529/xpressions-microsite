@@ -1,0 +1,652 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Xpressions Microsite</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: a night stage. Dark navy ground, neon blue and amber light, a patterned strip along the edges like the fest's own posters. */
+:root {
+  --bg: #0a0e1f;
+  --surface: #121936;
+  --surface-2: #19224a;
+  --line: #2b3668;
+  --fg: #eef1fb;
+  --muted: #a6aecb;
+  --amber: #ffa534;
+  --blue: #52c7ff;
+  --rose: #ff6aa6;
+  --font-display: "Unbounded", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-body: "Hanken Grotesk", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 40px;
+  overflow-x: hidden;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  background: var(--bg); z-index: 30;
+}
+a { color: var(--blue); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+.wrap { width: 100%; max-width: 1080px; margin-inline: auto; }
+
+.strip {
+  height: 14px;
+  background:
+    linear-gradient(135deg, var(--blue) 25%, transparent 25%) -7px 0 / 14px 14px,
+    linear-gradient(225deg, var(--blue) 25%, transparent 25%) -7px 0 / 14px 14px,
+    linear-gradient(315deg, var(--amber) 25%, transparent 25%) 0 0 / 14px 14px,
+    linear-gradient(45deg, var(--amber) 25%, transparent 25%) 0 0 / 14px 14px;
+  background-color: var(--surface);
+}
+
+/* Header and navigation */
+.site-header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  background: rgba(10, 14, 31, 0.94);
+  border-bottom: 1px solid var(--line);
+}
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; position: relative; }
+.brand {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: 0.06em;
+  color: var(--fg); text-decoration: none; text-shadow: 0 0 16px rgba(82, 199, 255, 0.6);
+}
+.brand b { color: var(--amber); font-weight: 700; }
+.menu-btn {
+  font: inherit; font-weight: 700; color: var(--fg); background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer; min-height: 44px;
+}
+.nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 8px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5); }
+.nav.open { display: grid; gap: 2px; }
+.nav a {
+  display: block; padding: 12px 14px; border-radius: 10px; color: var(--fg); text-decoration: none; font-weight: 500; min-height: 44px;
+}
+.nav a[aria-current="page"] { background: var(--surface-2); color: var(--amber); }
+@media (min-width: 860px) {
+  .menu-btn { display: none; }
+  .nav { display: flex; position: static; background: none; border: 0; padding: 0; box-shadow: none; gap: 4px; }
+  .nav a { padding: 8px 14px; min-height: 0; }
+}
+
+/* Shared pieces */
+.page { padding-block: 32px 8px; }
+html.js .page[hidden] { display: none; }
+.eyebrow { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--blue); font-weight: 700; }
+.lead { font-size: 1.12rem; color: var(--muted); max-width: 60ch; }
+.section { margin-top: 56px; display: grid; gap: 20px; }
+.section > h2 { font-size: clamp(1.4rem, 4.6vw, 2rem); }
+.section > .sub { color: var(--muted); max-width: 64ch; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px;
+  padding: 12px 22px; border-radius: 999px; font-weight: 700; text-decoration: none; font-family: var(--font-body);
+  border: 2px solid var(--amber); color: var(--fg); background: transparent; cursor: pointer; font-size: 1rem;
+}
+.btn.primary { background: var(--amber); color: #1a1100; box-shadow: 0 0 28px rgba(255, 165, 52, 0.35); }
+.btn.ghost { border-color: var(--blue); color: var(--blue); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 0.85rem; font-weight: 500;
+  background: var(--surface-2); border: 1px solid var(--line); color: var(--fg);
+}
+.chip.tent { border-color: var(--amber); color: var(--amber); }
+.tag {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 3px 8px; border-radius: 6px; background: rgba(255, 165, 52, 0.14); color: var(--amber);
+}
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 8px; min-width: 0; }
+.card h3 { font-size: 1.05rem; }
+.card p, .card li { color: var(--muted); }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.notice {
+  border: 1px dashed var(--amber); border-radius: 14px; padding: 16px 18px; background: rgba(255, 165, 52, 0.07); display: grid; gap: 4px;
+}
+.notice strong { color: var(--amber); }
+
+/* Home */
+.hero { display: grid; gap: 28px; align-items: center; }
+.hero h1 { font-size: clamp(2.2rem, 9vw, 4.4rem); text-shadow: 0 0 26px rgba(82, 199, 255, 0.45); }
+.hero h1 em { font-style: normal; color: var(--amber); text-shadow: 0 0 26px rgba(255, 165, 52, 0.5); }
+.hero-copy { display: grid; gap: 20px; min-width: 0; }
+.figure { margin: 0; display: grid; gap: 8px; }
+.figure img { width: 100%; border-radius: 16px; border: 1px solid var(--line); }
+.figure figcaption { font-size: 0.85rem; color: var(--muted); }
+@media (min-width: 860px) { .hero { grid-template-columns: 1.05fr 1fr; } }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.stat { border-left: 3px solid var(--amber); padding: 4px 0 4px 14px; }
+.stat b { display: block; font-family: var(--font-display); font-size: 1.5rem; color: var(--fg); }
+.stat span { color: var(--muted); font-size: 0.92rem; }
+.latest { display: grid; gap: 14px; background: linear-gradient(160deg, var(--surface-2), var(--surface)); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+.latest h2 { font-size: 1.3rem; }
+.latest dl { margin: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.latest dt { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); font-weight: 700; }
+.latest dd { margin: 0; }
+.cta-band { text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 36px 20px; display: grid; gap: 16px; justify-items: center; }
+.cta-band h2 { font-size: clamp(1.4rem, 5vw, 2rem); }
+.cta-band p { color: var(--muted); max-width: 52ch; }
+
+/* Highlights */
+.gallery { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.timeline li { display: grid; gap: 4px 16px; padding: 14px 0; border-top: 1px solid var(--line); grid-template-columns: 1fr; }
+.timeline li:last-child { border-bottom: 1px solid var(--line); }
+.timeline b { color: var(--amber); font-family: var(--font-display); font-size: 0.9rem; }
+.timeline span { color: var(--muted); }
+@media (min-width: 700px) { .timeline li { grid-template-columns: 220px 1fr; } }
+
+/* Programme */
+.days { display: grid; gap: 16px; }
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 12px; }
+.day h3 { font-size: 1.1rem; color: var(--amber); }
+.slot { display: grid; gap: 2px 16px; padding-top: 12px; border-top: 1px solid var(--line); grid-template-columns: 1fr; min-width: 0; }
+.slot b { color: var(--blue); font-weight: 700; }
+.slot p { color: var(--muted); }
+.slot strong { color: var(--fg); }
+@media (min-width: 700px) { .slot { grid-template-columns: 170px 1fr; } }
+.rules li { padding-left: 22px; position: relative; color: var(--muted); }
+.rules li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 10px; height: 2px; background: var(--amber); }
+.rules { display: grid; gap: 8px; }
+
+/* Competitions */
+.comp-list { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.comp { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 4px; min-width: 0; }
+.comp b { font-family: var(--font-display); font-size: 0.95rem; }
+.comp small { color: var(--blue); font-weight: 700; letter-spacing: 0.04em; }
+.comp p { color: var(--muted); font-size: 0.95rem; }
+
+/* Register */
+.steps { display: grid; gap: 14px; counter-reset: step; }
+.step { display: grid; grid-template-columns: 44px 1fr; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; counter-increment: step; }
+.step::before {
+  content: counter(step); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--amber); color: #1a1100; font-family: var(--font-display); font-weight: 700;
+}
+.step h3 { font-size: 1rem; margin-bottom: 4px; }
+.step p { color: var(--muted); }
+
+/* FAQ */
+.faq { display: grid; gap: 10px; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 0 18px; }
+summary { cursor: pointer; padding: 16px 0; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 16px; min-height: 48px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--amber); font-size: 1.4rem; line-height: 1; }
+details[open] summary::after { content: "\2212"; }
+details p { padding-bottom: 16px; color: var(--muted); }
+.contact { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.contact .card a { overflow-wrap: anywhere; }
+
+/* Footer */
+.site-footer { margin-top: 64px; display: grid; gap: 16px; }
+.site-footer .links { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.site-footer p { color: var(--muted); font-size: 0.88rem; max-width: 80ch; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+  <header class="site-header">
+    <div class="strip" aria-hidden="true"></div>
+    <div class="bar">
+      <a class="brand" href="#home" aria-label="Xpressions home">XPRESSIONS <b>'25</b></a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#home" data-link="home">Home</a>
+        <a href="#highlights" data-link="highlights">Highlights</a>
+        <a href="#programme" data-link="programme">Programme and venue</a>
+        <a href="#competitions" data-link="competitions">Competitions and acts</a>
+        <a href="#register" data-link="register">Register</a>
+        <a href="#faq" data-link="faq">FAQ and contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- HOME -->
+    <section class="page" id="p-home" data-page="home" aria-label="Home">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Management and cultural fest · XIM University, Bhubaneswar</p>
+          <h1>Compete. Perform. <em>Celebrate.</em></h1>
+          <p class="lead">Three days where national-level business challenges, a full stage and a live pro show come together, with students from colleges across the country.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="#register">Register Your Intent Now</a>
+            <a class="btn ghost" href="#programme">See the programme</a>
+          </div>
+          <div class="chips">
+            <span class="chip tent">Next edition: dates to be announced (tentative)</span>
+            <span class="chip">Latest: Xpressions '25, 28 Feb to 1 Mar 2026</span>
+          </div>
+        </div>
+        <figure class="figure">
+          <img src="img/crowd.jpg" width="678" height="452" alt="A packed crowd in black Xpressions T-shirts at a night show, with stage lights behind them">
+          <figcaption>The crowd at a night show. Photo: X-Lens.</figcaption>
+        </figure>
+      </div>
+
+      <div class="section">
+        <div class="stats">
+          <div class="stat"><b>Since 1998</b><span>Run by XIM's student committees</span></div>
+          <div class="stat"><b>100+ colleges</b><span>Took part in 2017, per organisers</span></div>
+          <div class="stat"><b>25+ partners</b><span>Announced for Xpressions '25</span></div>
+          <div class="stat"><b>3 days</b><span>Business, stage, social and a pro show</span></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="latest">
+          <p class="eyebrow">Latest edition</p>
+          <h2>Xpressions '25</h2>
+          <dl>
+            <div><dt>Dates</dt><dd>28 February to 1 March 2026</dd></div>
+            <div><dt>Venue</dt><dd>XIMB Old Campus, Jayadev Vihar, Bhubaneswar</dd></div>
+            <div><dt>Pro show</dt><dd>Amaal Mallik, 1 March, XIM Ground</dd></div>
+            <div><dt>Also on</dt><dd>Aashish Solanki (comedy), The Xenial Secrets (EDM night), X-Athon 10 km run</dd></div>
+          </dl>
+          <div class="btn-row"><a class="btn ghost" href="#programme">Full programme</a><a class="btn ghost" href="#highlights">Highlights</a></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Three ways to take part</h2>
+        <p class="sub">Xpressions mixes business challenges with a full cultural stage, so there is a place for most students.</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Business and management</h3>
+            <p>Case studies, trading and business simulations, pitching, a Model UN and a CSR action-plan competition, set by XIM's own committees.</p>
+            <p><a href="#competitions">See business events</a></p>
+          </div>
+          <div class="card">
+            <h3>Stage and cultural</h3>
+            <p>Western and Indian dance, singing, a band battle, street play, mono-act, fashion, painting, photography and short film.</p>
+            <p><a href="#competitions">See stage events</a></p>
+          </div>
+          <div class="card">
+            <h3>Social and informal</h3>
+            <p>The X-Athon 10 km run for a cause, X-Enable for specially-abled children, treasure hunts and a human foosball tournament.</p>
+            <p><a href="#competitions">See social events</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Why come</h2>
+        <div class="grid">
+          <div class="card"><h3>Competitors</h3><p>Take on real case studies and simulations run by a B-school, and add something strong to your CV.</p></div>
+          <div class="card"><h3>Performers</h3><p>Get a proper stage and a big audience for dance, music, drama, fashion, art and film.</p></div>
+          <div class="card"><h3>Visitors</h3><p>Catch pro shows, stand-up and an EDM night on a busy campus.</p></div>
+          <div class="card"><h3>Sponsors</h3><p>Reach management students and the Bhubaneswar audience. More than 25 partners joined Xpressions '25.</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="cta-band">
+          <h2>Be first to know about the next Xpressions</h2>
+          <p>The next edition has not been announced yet. Register your intent now and follow the fest's own channels for the date.</p>
+          <a class="btn primary" href="#register">Register Your Intent Now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIGHLIGHTS -->
+    <section class="page" id="p-highlights" data-page="highlights" aria-label="Previous highlights" hidden>
+      <p class="eyebrow">Previous editions</p>
+      <h1 style="font-size: clamp(1.8rem, 6vw, 3rem);">Highlights</h1>
+      <p class="lead" style="margin-top: 12px;">Photos, headline acts and the story of how Xpressions has grown.</p>
+
+      <div class="section">
+        <h2>Photos</h2>
+        <div class="gallery">
+          <figure class="figure"><img src="img/stage.jpg" width="630" height="420" alt="Two performers with microphones on a stage lit by blue and green beams" loading="lazy"><figcaption>Live on stage during a pro show night. Photo: X-Lens.</figcaption></figure>
+          <figure class="figure"><img src="img/crowd.jpg" width="678" height="452" alt="A large night-time crowd at a show" loading="lazy"><figcaption>The crowd at a night show. Photo: X-Lens.</figcaption></figure>
+          <figure class="figure"><img src="img/fashion.jpg" width="678" height="452" alt="Five models on stage in front of a Carnival de Vogue backdrop" loading="lazy"><figcaption>Carnival de Vogue, the fashion show.</figcaption></figure>
+          <figure class="figure"><img src="img/judges.jpg" width="678" height="452" alt="Two seated judges at a table with an audience standing behind a barrier" loading="lazy"><figcaption>Judges and audience at a stage event. Photo: X-Lens.</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Videos</h2>
+        <p class="sub">Reels from the fest's Instagram page. These open on Instagram in a new tab.</p>
+        <div class="grid">
+          <a class="card" href="https://www.instagram.com/ximbxpressions/reels/" target="_blank" rel="noopener"><h3>Artist reveal and countdown</h3><p>The 17 Feb reveal night and the daily countdown to Xpressions '25.</p></a>
+          <a class="card" href="https://www.instagram.com/ximbxpressions/reels/" target="_blank" rel="noopener"><h3>Meet the performers</h3><p>Invites from Amaal Mallik, Aashish Solanki and The Xenial Secrets.</p></a>
+          <a class="card" href="https://www.instagram.com/ximbxpressions/reels/" target="_blank" rel="noopener"><h3>X-Athon</h3><p>The 10 km run for a cause, with the coffee rave afterwards.</p></a>
+          <a class="card" href="https://www.instagram.com/ximbxpressions/reels/" target="_blank" rel="noopener"><h3>Prom: A Red Carpet Affair</h3><p>The red-carpet prom night and its build-up.</p></a>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Headline acts through the years</h2>
+        <ul class="timeline">
+          <li><b>2015</b><span>Vishal-Shekhar at Celeblitz, the closing celebrity night.</span></li>
+          <li><b>2017 (20th year)</b><span>Farhan Akhtar at Celeblitz, with the X-Athon 10k and X-Enable as preludes.</span></li>
+          <li><b>2018</b><span>Sunidhi Chauhan performed.</span></li>
+          <li><b>2019</b><span>Mika Singh at Celeblitz, stand-up by Kumar Varun, and a battle of the bands.</span></li>
+          <li><b>January 2023</b><span>Vishal-Shekhar again, with stand-up by Karunesh Talwar. 29 companies sponsored this edition.</span></li>
+          <li><b>January 2024</b><span>Darshan Raval on the celebrity night, Sachin-Jigar on day three and comedy by Aakash Gupta.</span></li>
+          <li><b>28 Feb to 1 Mar 2026</b><span>Amaal Mallik pro show, Aashish Solanki comedy night and The Xenial Secrets EDM night.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>How the fest has changed</h2>
+        <ul class="timeline">
+          <li><b>1998</b><span>Xpressions starts as a student-run management and cultural fest at XIMB.</span></li>
+          <li><b>2011</b><span>Theme "Iridescence": business simulations by day, cultural evenings, Celeblitz to close.</span></li>
+          <li><b>2016</b><span>Case-study finals (Maven, M-Power), a recycled-craft contest called Mould to Hold, and the band Lagori.</span></li>
+          <li><b>2021 edition</b><span>Held online on 19 and 20 Feb 2022, with 11 business, 9 stage and 4 social events.</span></li>
+          <li><b>2022 edition</b><span>13 to 15 Jan 2023, back on campus and called the 25th edition by XIMB.</span></li>
+          <li><b>Xpressions '25</b><span>28 Feb to 1 Mar 2026, with more than 25 partner brands announced one by one.</span></li>
+        </ul>
+        <p class="sub">Editions are named for the academic year before they are held, so Xpressions '25 took place in 2026.</p>
+      </div>
+    </section>
+
+    <!-- PROGRAMME -->
+    <section class="page" id="p-programme" data-page="programme" aria-label="Programme, schedule and venue" hidden>
+      <p class="eyebrow">Programme, schedule and venue</p>
+      <h1 style="font-size: clamp(1.8rem, 6vw, 3rem);">The programme</h1>
+
+      <div class="section" style="margin-top: 24px;">
+        <div class="notice">
+          <strong>Tentative</strong>
+          <p>Dates, schedule and venue for the next edition are tentative until the organising team confirms them. The programme below is Xpressions '25 as announced on the fest's Instagram page, and shows the format to expect.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Xpressions '25 schedule</h2>
+        <div class="days">
+          <div class="day">
+            <h3>Build-up</h3>
+            <div class="slot"><b>Tue 17 Feb, 7:30 pm</b><p><strong>Artist reveal.</strong> In front of the NR Badminton Court.</p></div>
+            <div class="slot"><b>Sat 21 Feb</b><p><strong>X-Athon.</strong> A 10 km run for a cause with cash prizes of Rs 15,000, a running bag and T-shirt for every participant, and a coffee rave afterwards.</p></div>
+            <div class="slot"><b>Wed 25 Feb, 8:50 pm</b><p><strong>Professor's Gambit.</strong> Exam Hall.</p></div>
+          </div>
+          <div class="day">
+            <h3>Day 1: Saturday 28 February 2026</h3>
+            <div class="slot"><b>9 am to 5 pm</b><p><strong>Xigabyte.</strong> A gaming event by the Systems Association (XSys), co-powered by Dell Technologies. Games include EA FC24. Exam Hall. Continues on Day 2.</p></div>
+            <div class="slot"><b>All day</b><p><strong>X-Enable.</strong> A sports event with the Robin Hood Army at XIMB Old Campus.</p></div>
+            <div class="slot"><b>Evening</b><p><strong>Comedy night with Aashish Solanki.</strong> Gates close at 6:00 pm sharp.</p></div>
+            <div class="slot"><b>After the comedy show</b><p><strong>Sunburn Night: EDM with The Xenial Secrets.</strong> Entry after 6:00 pm is for this show only.</p></div>
+          </div>
+          <div class="day">
+            <h3>Day 2: Sunday 1 March 2026</h3>
+            <div class="slot"><b>9 am to 5 pm</b><p><strong>Xigabyte.</strong> Second day of the gaming event, Exam Hall.</p></div>
+            <div class="slot"><b>7 pm onwards</b><p><strong>Amaal Mallik pro show.</strong> XIM Ground.</p></div>
+          </div>
+          <div class="day">
+            <h3>Also in the programme</h3>
+            <div class="slot"><b>Comedy</b><p><strong>Satyabrat.</strong> Stand-up, on a poster dated 28 February 2026.</p></div>
+            <div class="slot"><b>Prom</b><p><strong>A Red Carpet Affair.</strong> The fest's prom night.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Venue</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>XIM University Old Campus (XIMB)</h3>
+            <p>Xavier Square, Jayadev Vihar, Bhubaneswar 751013, Odisha</p>
+            <p><a href="https://www.google.com/maps/search/?api=1&query=XIM+University+Old+Campus+Xavier+Square+Bhubaneswar" target="_blank" rel="noopener">Open in Google Maps</a></p>
+          </div>
+          <div class="card">
+            <h3>Where things happened in '25</h3>
+            <ul class="rules">
+              <li>XIM Ground: the Amaal Mallik pro show</li>
+              <li>Exam Hall: Xigabyte gaming and Professor's Gambit</li>
+              <li>In front of the NR Badminton Court: the artist reveal</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Entry rules from Xpressions '25 (Day 1)</h2>
+        <ul class="rules">
+          <li>Entry is allowed once. If you leave the venue, you cannot re-enter.</li>
+          <li>People with a physical pass must carry it. Online registrants must keep the emailed QR code ready for scanning at the gate.</li>
+          <li>XIM University NC students must show a valid ID card.</li>
+          <li>Entry to the Aashish Solanki show is first come, first served, and gates close at 6:00 pm sharp. After 6:00 pm only Sunburn Night entry is allowed.</li>
+          <li>Recording of any kind is not allowed during the comedy show.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- COMPETITIONS -->
+    <section class="page" id="p-competitions" data-page="competitions" aria-label="Competitions, performances, speakers and attractions" hidden>
+      <p class="eyebrow">Competitions, performances and attractions</p>
+      <h1 style="font-size: clamp(1.8rem, 6vw, 3rem);">What you can do</h1>
+
+      <div class="section" style="margin-top: 24px;">
+        <div class="notice">
+          <strong>Tentative</strong>
+          <p>These competitions ran in recent editions. The next edition's list is tentative until the organising team confirms it.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Business and management</h2>
+        <div class="comp-list">
+          <div class="comp"><small>MAXIM</small><b>MPower</b><p>A case-study competition run by the marketing committee.</p></div>
+          <div class="comp"><small>CONSTRAT</small><b>Maven</b><p>A case-study competition from the consulting and strategy consortium. Constrat also runs Xhillerate.</p></div>
+          <div class="comp"><small>X-OPS</small><b>Aarohan and Nirnay</b><p>Aarohan is the operations case study. Nirnay is an in-house business simulation game.</p></div>
+          <div class="comp"><small>XSYS</small><b>Case Connect</b><p>A case study that tests business analytics skills.</p></div>
+          <div class="comp"><small>XFIN</small><b>Trade Wars and FinBid</b><p>A trading simulation game and a bidding session that tests strategic thinking.</p></div>
+          <div class="comp"><small>XSEED</small><b>Ad Valorem</b><p>A contest from the entrepreneurship cell where teams show their business talent.</p></div>
+          <div class="comp"><small>IRC</small><b>Pitch It Abroad</b><p>A national-level pitching competition.</p></div>
+          <div class="comp"><small>SOCIAL RESPONSIBILITY CELL</small><b>Vriddhi</b><p>A national-level CSR action-plan competition.</p></div>
+          <div class="comp"><small>SPEAKUP</small><b>XIM Model United Nations</b><p>Two councils: the UN Human Rights Council and the International Press.</p></div>
+          <div class="comp"><small>XQUIZZITE</small><b>Inquizzitive</b><p>The quiz committee's flagship event.</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Stage and cultural</h2>
+        <div class="comp-list">
+          <div class="comp"><small>DANCE</small><b>Footloose and Thirkan</b><p>Footloose is Western dance. Thirkan is Indian dance.</p></div>
+          <div class="comp"><small>MUSIC</small><b>Symphony and Goonj</b><p>Symphony is Western singing. Goonj covers Indian and classical music.</p></div>
+          <div class="comp"><small>MUSIC</small><b>Decibelz</b><p>The band battle.</p></div>
+          <div class="comp"><small>THEATRE</small><b>Abhinay and Aaghaz</b><p>Abhinay is a mono-act. Aaghaz is the street play (nukkad natak).</p></div>
+          <div class="comp"><small>FASHION</small><b>Carnival de Vogue</b><p>The ramp-walk competition.</p></div>
+          <div class="comp"><small>ART</small><b>Paint@XIMB</b><p>A painting competition.</p></div>
+          <div class="comp"><small>X-LENS</small><b>Lensation</b><p>A photography competition.</p></div>
+          <div class="comp"><small>TEAM ILLUMINATIX</small><b>The Final Cut</b><p>The annual short-film making competition.</p></div>
+          <div class="comp"><small>LITSOC</small><b>Flight of Fancy</b><p>A quiz and treasure hunt.</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Social and informal</h2>
+        <div class="comp-list">
+          <div class="comp"><small>SPORTS COMMITTEE</small><b>X-Athon</b><p>A 10 km run for a cause.</p></div>
+          <div class="comp"><small>SOCIAL RESPONSIBILITY CELL</small><b>X-Enable</b><p>A sports event for specially-abled children.</p></div>
+          <div class="comp"><small>FUN</small><b>Foot of Fury</b><p>Human foosball.</p></div>
+          <div class="comp"><small>FUN</small><b>EnigmaX</b><p>An online treasure hunt for XIMB alumni.</p></div>
+          <div class="comp"><small>MEDIA</small><b>Big Xpressions</b><p>The RJ hunt competition.</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Performances at Xpressions '25</h2>
+        <div class="grid">
+          <div class="card"><h3>Amaal Mallik</h3><p>Pro show, 1 March, 7 pm onwards, XIM Ground.</p></div>
+          <div class="card"><h3>Aashish Solanki</h3><p>Comedy night, 28 February.</p></div>
+          <div class="card"><h3>The Xenial Secrets</h3><p>EDM night, called Sunburn Night, 28 February.</p></div>
+          <div class="card"><h3>Satyabrat</h3><p>Stand-up comedy, on a poster dated 28 February.</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Speakers</h2>
+        <div class="card"><p>No speakers have been announced for the next edition <span class="tag">Tentative</span></p></div>
+      </div>
+
+      <div class="section">
+        <h2>Attractions</h2>
+        <div class="grid">
+          <div class="card"><h3>Gaming at Xigabyte</h3><p>Two days of console and PC games in the Exam Hall, with Dell Technologies as co-powering partner.</p></div>
+          <div class="card"><h3>X-Athon coffee rave</h3><p>A coffee rave after the 10 km run, with goodies for winners.</p></div>
+          <div class="card"><h3>Prom night</h3><p>A Red Carpet Affair, with its own red-carpet campaign.</p></div>
+          <div class="card"><h3>Food partners</h3><p>13 food brands were announced for '25, including KFC, Burger Singh, Bob's Momo and The Belgian Waffle Co.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTER -->
+    <section class="page" id="p-register" data-page="register" aria-label="Registration and participation" hidden>
+      <p class="eyebrow">Registration and participation</p>
+      <h1 style="font-size: clamp(1.8rem, 6vw, 3rem);">Register Your Intent Now</h1>
+      <p class="lead" style="margin-top: 12px;">The next Xpressions has not been announced. Here is how to be ready when it is.</p>
+
+      <div class="section" style="margin-top: 24px;">
+        <div class="notice">
+          <strong>Tentative</strong>
+          <p>Registration details for the next edition, including fees and deadlines, will be confirmed by the organising team.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Three steps</h2>
+        <div class="steps">
+          <div class="step"><div><h3>Follow the fest on Instagram</h3><p>Sign-ups, passes and artist announcements for Xpressions '25 were all posted on @ximbxpressions. <a href="https://www.instagram.com/ximbxpressions" target="_blank" rel="noopener">Open Instagram</a></p></div></div>
+          <div class="step"><div><h3>Save the Luma page</h3><p>Xpressions XIM University hosts events on Luma. Follow it so new events reach you. <a href="https://luma.com/user/usr-GfukqIi26hdF0ZC" target="_blank" rel="noopener">Open Luma</a></p></div></div>
+          <div class="step"><div><h3>Come back to this site</h3><p>Check the <a href="#programme">programme</a> and <a href="#competitions">competitions</a> pages for the events you want, and get your team together.</p></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>How it worked for Xpressions '25</h2>
+        <div class="grid">
+          <div class="card"><h3>Run events</h3><p>X-Athon sign-up was by scanning a QR code on the poster.</p></div>
+          <div class="card"><h3>Shows</h3><p>Entry was by a physical pass, or by an online registration that sent a QR code by email.</p></div>
+          <div class="card"><h3>At the gate</h3><p>Entry once only, with the QR code or pass ready to scan. XIM University NC students showed a valid ID card.</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Keep ready</h2>
+        <ul class="rules">
+          <li>Your college name and a valid college ID card.</li>
+          <li>Your team, for team events <span class="tag">Tentative</span></li>
+          <li>A phone with the emailed QR code once you register.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>Partners and sponsors</h2>
+        <div class="card"><p>Xpressions '25 had more than 25 partners across banking, food, beverages, hospitality, entertainment and more. To talk about partnering, message <a href="https://www.instagram.com/ximbxpressions" target="_blank" rel="noopener">@ximbxpressions</a> on Instagram.</p></div>
+      </div>
+
+      <div class="section">
+        <div class="cta-band">
+          <h2>Never miss the announcement</h2>
+          <div class="btn-row">
+            <a class="btn primary" href="https://www.instagram.com/ximbxpressions" target="_blank" rel="noopener">Follow on Instagram</a>
+            <a class="btn ghost" href="https://luma.com/user/usr-GfukqIi26hdF0ZC" target="_blank" rel="noopener">Open Luma page</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ AND CONTACT -->
+    <section class="page" id="p-faq" data-page="faq" aria-label="FAQs and contact" hidden>
+      <p class="eyebrow">Questions and contact</p>
+      <h1 style="font-size: clamp(1.8rem, 6vw, 3rem);">FAQ and contact</h1>
+
+      <div class="section" style="margin-top: 24px;">
+        <div class="faq">
+          <details open><summary>What is Xpressions?</summary><p>The annual management and cultural fest of Xavier Institute of Management, Bhubaneswar (XIMB), the flagship school of XIM University. Students run it through the Xpressions Steering Committee (X-Stec) and the Student Executive Council. It has business, stage and social events, and a pro show.</p></details>
+          <details><summary>When is the next Xpressions?</summary><p>The dates have not been announced <span class="tag">Tentative</span> The latest edition, Xpressions '25, ran from 28 February to 1 March 2026. New dates will appear on the fest's Instagram page.</p></details>
+          <details><summary>Why is Xpressions '25 dated 2026?</summary><p>Editions are named for the academic year before they are held, so the '25 edition took place in early 2026.</p></details>
+          <details><summary>Where is it held?</summary><p>At XIM University's Old Campus (XIMB), Xavier Square, Jayadev Vihar, Bhubaneswar 751013.</p></details>
+          <details><summary>Who can take part?</summary><p>Students from colleges across the country take part in the competitions. In 2017 the organisers said students from more than 100 colleges join each year. Eligibility for each event is announced with its rules <span class="tag">Tentative</span></p></details>
+          <details><summary>How do I register?</summary><p>See the <a href="#register">Register page</a>. For '25, run events used a QR sign-up and show entry used physical passes or an emailed QR code.</p></details>
+          <details><summary>What does it cost?</summary><p>Fees for the next edition will be announced with registrations <span class="tag">Tentative</span></p></details>
+          <details><summary>Can I enter a show without a pass?</summary><p>At Xpressions '25 you needed a physical pass or an emailed QR code. Entry was once only, with no re-entry, and gates for the comedy show closed at 6:00 pm sharp.</p></details>
+          <details><summary>Can I record the shows?</summary><p>Recording of any kind was banned during the comedy show at Xpressions '25.</p></details>
+          <details><summary>Where can I stay?</summary><p>Accommodation details will be shared with the next edition's announcement <span class="tag">Tentative</span></p></details>
+          <details><summary>How can my company become a partner?</summary><p>Message the fest on Instagram. Xpressions '25 had more than 25 partners, from banking and food to hospitality and entertainment.</p></details>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Contact and social media</h2>
+        <div class="contact">
+          <div class="card"><h3>Instagram</h3><p><a href="https://www.instagram.com/ximbxpressions" target="_blank" rel="noopener">@ximbxpressions</a></p><p>The fest's main channel for announcements and messages.</p></div>
+          <div class="card"><h3>Luma</h3><p><a href="https://luma.com/user/usr-GfukqIi26hdF0ZC" target="_blank" rel="noopener">Xpressions XIM University</a></p><p>Event listings and registrations.</p></div>
+          <div class="card"><h3>Campus</h3><p>XIM University Old Campus, Xavier Square, Jayadev Vihar, Bhubaneswar 751013, Odisha</p><p>XIM University phone: +91 674 237 7700</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="strip" aria-hidden="true"></div>
+    <div class="links">
+      <a href="#home">Home</a><a href="#highlights">Highlights</a><a href="#programme">Programme</a><a href="#competitions">Competitions</a><a href="#register">Register</a><a href="#faq">FAQ</a>
+      <a href="https://www.instagram.com/ximbxpressions" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://luma.com/user/usr-GfukqIi26hdF0ZC" target="_blank" rel="noopener">Luma</a>
+    </div>
+    <p>A student microsite project about the Xpressions fest of XIM University. It is not an official XIM University or Xpressions website. Details marked tentative are pending confirmation from the organising team. Photos: X-Lens.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var pages = ['home', 'highlights', 'programme', 'competitions', 'register', 'faq'];
+  var root = document.documentElement;
+  root.classList.add('js');
+  var menuBtn = document.getElementById('menuBtn');
+  var nav = document.getElementById('nav');
+  var titles = { home: 'Home', highlights: 'Highlights', programme: 'Programme and venue', competitions: 'Competitions and acts', register: 'Register', faq: 'FAQ and contact' };
+
+  function current() {
+    var h = (location.hash || '').replace('#', '');
+    return pages.indexOf(h) > -1 ? h : 'home';
+  }
+  function show(name, scroll) {
+    var secs = document.querySelectorAll('.page');
+    for (var i = 0; i < secs.length; i++) {
+      secs[i].hidden = secs[i].getAttribute('data-page') !== name;
+    }
+    var links = nav.querySelectorAll('a');
+    for (var j = 0; j < links.length; j++) {
+      if (links[j].getAttribute('data-link') === name) links[j].setAttribute('aria-current', 'page');
+      else links[j].removeAttribute('aria-current');
+    }
+    nav.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = 'Menu';
+    document.title = 'Xpressions Microsite | ' + titles[name];
+    if (scroll) window.scrollTo(0, 0);
+  }
+  menuBtn.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.textContent = open ? 'Close' : 'Menu';
+  });
+  window.addEventListener('hashchange', function () { show(current(), true); });
+  show(current(), false);
+})();
+</script>
+
+</body></html>
