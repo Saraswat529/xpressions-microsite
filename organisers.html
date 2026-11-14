@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Xpressions Intent Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1f; --surface: #121936; --surface-2: #19224a; --line: #2b3668; --fg: #eef1fb; --muted: #a6aecb;
+  --amber: #ffa534; --blue: #52c7ff; --rose: #ff6aa6; --mint: #7dffb2; --violet: #9b8cff;
+  --font-display: "Unbounded", "Trebuchet MS", sans-serif; --font-body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--font-body); padding: 24px max(16px, env(safe-area-inset-left)) 48px; }
+.wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 24px; }
+h1, h2 { font-family: var(--font-display); margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+h2 { font-size: 1.15rem; }
+p { margin: 0; }
+a { color: var(--blue); }
+.top { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: end; }
+.eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; color: var(--blue); font-weight: 700; }
+.muted { color: var(--muted); }
+.status { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .9rem; }
+.status i { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+.status.live i { background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+.status.error i { background: var(--rose); }
+.btn { font: inherit; font-weight: 700; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 2px solid var(--amber); background: transparent; color: var(--fg); cursor: pointer; }
+.btn:hover { background: rgba(255, 165, 52, .12); }
+.kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 4px; }
+.kpi b { font-family: var(--font-display); font-size: 2rem; color: var(--amber); font-variant-numeric: tabular-nums; }
+.kpi span { color: var(--muted); font-size: .9rem; }
+.kpi.reg b { color: var(--muted); font-size: 1.2rem; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: grid; gap: 14px; }
+.bars { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: minmax(120px, 220px) 1fr 56px; gap: 12px; align-items: center; }
+.bar-row .name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track { height: 14px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.track i { display: block; height: 100%; border-radius: inherit; transition: width .8s cubic-bezier(.2,.8,.2,1); }
+.bar-row .n { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+.c-nights { background: linear-gradient(90deg, #ffa534, #ff6aa6); }
+.c-business { background: linear-gradient(90deg, #52c7ff, #9b8cff); }
+.c-stage { background: linear-gradient(90deg, #ff6aa6, #ffa534); }
+.c-social { background: linear-gradient(90deg, #7dffb2, #52c7ff); }
+.cats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.cat { border-radius: 14px; padding: 14px; background: var(--bg); border: 1px solid var(--line); display: grid; gap: 2px; }
+.cat b { font-family: var(--font-display); font-size: 1.4rem; }
+.cat small { color: var(--muted); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th button { font: inherit; font-weight: 700; color: var(--blue); background: none; border: 0; cursor: pointer; padding: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.legend { color: var(--muted); font-size: .88rem; border-left: 3px solid var(--amber); padding-left: 12px; }
+.setup { border: 1px dashed var(--amber); background: rgba(255, 165, 52, .06); }
+.setup ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+code { background: var(--surface-2); padding: 2px 6px; border-radius: 6px; font-size: .88em; }
+[hidden] { display: none !important; }
+@media (max-width: 560px) { .bar-row { grid-template-columns: 1fr 48px; } .bar-row .track { grid-column: 1 / -1; grid-row: 2; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <p class="eyebrow">Xpressions '26 · Organisers</p>
+      <h1>Register Your Intent dashboard</h1>
+      <p class="muted">Live interest from visitors to the microsite. <a href="index.html">Back to the site</a></p>
+    </div>
+    <div style="display:grid;gap:8px;justify-items:end">
+      <p class="status" id="status"><i></i><span>Connecting…</span></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" id="refresh" type="button">Refresh now</button>
+        <button class="btn" id="csv" type="button">Download CSV</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="panel setup" id="setup" hidden>
+    <h2>The live tracker is not connected yet</h2>
+    <p>Counts appear here once the site is connected to its Supabase database. It takes about ten minutes:</p>
+    <ol>
+      <li>Create a free project at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a>.</li>
+      <li>In the project, open <b>SQL Editor</b>, paste the contents of <code>supabase/schema.sql</code> and click <b>Run</b>.</li>
+      <li>Open <b>Project Settings → API</b> and copy the <b>Project URL</b> and the <b>anon public</b> key.</li>
+      <li>Paste both into <code>js/config.js</code> (<code>supabaseUrl</code> and <code>supabaseAnonKey</code>) and publish the site.</li>
+    </ol>
+    <p class="muted">Until then, visitors' picks are saved on their own devices and are sent to the database automatically on their next visit after it is connected.</p>
+  </section>
+
+  <div id="dash" hidden>
+    <div class="kpis">
+      <div class="kpi"><b id="kVisitors">0</b><span>Expected participants: people who showed interest in at least one event</span></div>
+      <div class="kpi"><b id="kIntents">0</b><span>Total interest across all events (one person can pick several)</span></div>
+      <div class="kpi"><b id="kTop">–</b><span id="kTopLabel">Most popular event</span></div>
+      <div class="kpi"><b id="k24">0</b><span>New interest in the last 24 hours</span></div>
+      <div class="kpi reg"><b>Not open yet</b><span>Confirmed registrations are tracked separately, not on this dashboard</span></div>
+    </div>
+  </div>
+
+  <section class="panel" id="topPanel" hidden>
+    <h2>Most popular events</h2>
+    <div class="bars" id="topBars"></div>
+  </section>
+
+  <section class="panel" id="catPanel" hidden>
+    <h2>Interest by category</h2>
+    <div class="cats" id="cats"></div>
+  </section>
+
+  <section class="panel" id="tablePanel" hidden>
+    <h2>Every event</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col"><button type="button" data-sort="name">Event</button></th><th scope="col"><button type="button" data-sort="category">Category</button></th><th scope="col" class="num"><button type="button" data-sort="interested">Interested</button></th><th scope="col" class="num">Share</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="legend"><b>Interested is not registered.</b> These numbers count visitors who tapped an "I'm Interested" style button on the site. Each browser counts once per event and can withdraw. They help with planning, not admission. Visitors can clear their browser and count again, so treat the numbers as an estimate.</p>
+</div>
+
+<script src="js/config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var cfg = window.XP_CONFIG || {};
+  var LIVE = !!(cfg.supabaseUrl && cfg.supabaseAnonKey);
+  var CAT = { nights: "Xpressions '26 nights", business: 'Business and management', stage: 'Stage and cultural', social: 'Social and informal' };
+  var rows = [], sortKey = 'interested', sortDir = -1;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+  function rpc(name) {
+    return fetch(cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/rpc/' + name, {
+      method: 'POST',
+      headers: { apikey: cfg.supabaseAnonKey, Authorization: 'Bearer ' + cfg.supabaseAnonKey, 'Content-Type': 'application/json' },
+      body: '{}'
+    }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+  }
+  function setStatus(cls, text) { $('status').className = 'status ' + cls; $('status').querySelector('span').textContent = text; }
+
+  function render(summary) {
+    var total = rows.reduce(function (a, r) { return a + r.interested; }, 0);
+    $('kVisitors').textContent = summary.unique_visitors;
+    $('kIntents').textContent = summary.total_intents;
+    $('k24').textContent = summary.last_24h;
+    var sorted = rows.slice().sort(function (a, b) { return b.interested - a.interested; });
+    var top = sorted[0];
+    if (top && top.interested > 0) { $('kTop').textContent = top.interested; $('kTopLabel').textContent = 'Most popular: ' + top.name; }
+    else { $('kTop').textContent = '–'; $('kTopLabel').textContent = 'Most popular event (no interest yet)'; }
+
+    var max = top ? Math.max(1, top.interested) : 1;
+    $('topBars').innerHTML = sorted.slice(0, 8).map(function (r) {
+      return '<div class="bar-row"><span class="name">' + esc(r.name) + '</span><span class="track"><i class="c-' + r.category + '" style="width:' + (r.interested / max * 100) + '%"></i></span><span class="n">' + r.interested + '</span></div>';
+    }).join('');
+
+    var byCat = {};
+    rows.forEach(function (r) { byCat[r.category] = (byCat[r.category] || 0) + r.interested; });
+    $('cats').innerHTML = Object.keys(CAT).map(function (c) {
+      return '<div class="cat"><small>' + CAT[c] + '</small><b>' + (byCat[c] || 0) + '</b><small>' + (total ? Math.round((byCat[c] || 0) / total * 100) : 0) + '% of all interest</small></div>';
+    }).join('');
+
+    var t = rows.slice().sort(function (a, b) {
+      var x = a[sortKey], y = b[sortKey];
+      return (typeof x === 'number' ? x - y : String(x).localeCompare(String(y))) * sortDir;
+    });
+    $('rows').innerHTML = t.map(function (r) {
+      return '<tr><td>' + esc(r.name) + '</td><td>' + esc(CAT[r.category] || r.category) + '</td><td class="num">' + r.interested + '</td><td class="num">' + (total ? (r.interested / total * 100).toFixed(1) : '0.0') + '%</td></tr>';
+    }).join('');
+    ['dash', 'topPanel', 'catPanel', 'tablePanel'].forEach(function (id) { $(id).hidden = false; });
+  }
+
+  var lastSummary = null;
+  function load() {
+    if (!LIVE) return;
+    Promise.all([rpc('get_intent_counts'), rpc('get_intent_summary')]).then(function (res) {
+      rows = res[0].map(function (r) { return { id: r.event_id, name: r.name, category: r.category, interested: Number(r.interested) || 0 }; });
+      lastSummary = res[1];
+      render(lastSummary);
+      setStatus('live', 'Live · updated ' + new Date().toLocaleTimeString());
+    }).catch(function (e) { setStatus('error', 'Could not load data (' + e.message + '). Retrying shortly.'); });
+  }
+
+  document.querySelector('thead').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-sort]'); if (!b) return;
+    var k = b.dataset.sort;
+    sortDir = sortKey === k ? -sortDir : (k === 'interested' ? -1 : 1); sortKey = k;
+    if (lastSummary) render(lastSummary);
+  });
+  $('refresh').addEventListener('click', load);
+  $('csv').addEventListener('click', function () {
+    if (!rows.length) return;
+    var csv = 'event_id,event,category,interested\n' + rows.map(function (r) { return [r.id, '"' + r.name.replace(/"/g, '""') + '"', r.category, r.interested].join(','); }).join('\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = 'xpressions-intent-' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+
+  if (!LIVE) {
+    $('setup').hidden = false;
+    setStatus('', 'Not connected');
+    $('refresh').disabled = true; $('csv').disabled = true;
+  } else {
+    load();
+    setInterval(function () { if (!document.hidden) load(); }, Math.max(10, Number(cfg.pollSeconds) || 20) * 1000);
+  }
+})();
+</script>
+</body>
+</html>

@@ -198,6 +198,7 @@ details p { padding-bottom: 16px; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
+<link rel="stylesheet" href="css/fest.css">
 
 <div class="wrap">
   <header class="site-header">
@@ -223,7 +224,7 @@ details p { padding-bottom: 16px; color: var(--muted); }
       <div class="hero">
         <div class="hero-copy">
           <p class="eyebrow">Management and cultural fest · XIM University, Bhubaneswar</p>
-          <h1>Compete. Perform. <em>Celebrate.</em></h1>
+          <h1><span class="w" style="--i:0">Compete.</span> <span class="w" style="--i:1">Perform.</span> <em class="w" style="--i:2">Celebrate.</em></h1>
           <p class="lead">Three days where national-level business challenges, a full stage and a live pro show come together, with students from colleges across the country.</p>
           <div class="btn-row">
             <a class="btn primary" href="#register">Register Your Intent Now</a>
@@ -261,6 +262,12 @@ details p { padding-bottom: 16px; color: var(--muted); }
           </dl>
           <div class="btn-row"><a class="btn ghost" href="#programme">Full programme</a><a class="btn ghost" href="#highlights">Highlights</a></div>
         </div>
+      </div>
+
+      <div class="section" id="hotSection" hidden>
+        <h2>Most wanted at Xpressions '26</h2>
+        <p class="sub">The events visitors are most interested in so far, live from the Register Your Intent tracker.</p>
+        <div class="hot-list" id="hotEvents"></div>
       </div>
 
       <div class="section">
@@ -333,14 +340,15 @@ details p { padding-bottom: 16px; color: var(--muted); }
 
       <div class="section">
         <h2>Headline acts through the years</h2>
+        <p class="sub">Tap a highlighted name for the artist's Xpressions story, press coverage and video.</p>
         <ul class="timeline">
-          <li><b>2015</b><span>Vishal-Shekhar at Celeblitz, the closing celebrity night.</span></li>
-          <li><b>2017 (20th year)</b><span>Farhan Akhtar at Celeblitz, with the X-Athon 10k and X-Enable as preludes.</span></li>
-          <li><b>2018</b><span>Sunidhi Chauhan performed.</span></li>
-          <li><b>2019</b><span>Mika Singh at Celeblitz, stand-up by Kumar Varun, and a battle of the bands.</span></li>
-          <li><b>January 2023</b><span>Vishal-Shekhar again, with stand-up by Karunesh Talwar. 29 companies sponsored this edition.</span></li>
-          <li><b>January 2024</b><span>Darshan Raval on the celebrity night, Sachin-Jigar on day three and comedy by Aakash Gupta.</span></li>
-          <li><b>28 Feb to 1 Mar 2026</b><span>Amaal Mallik pro show, Aashish Solanki comedy night and The Xenial Secrets EDM night.</span></li>
+          <li><b>2015</b><span><button type="button" class="media-link" data-media="vishal-shekhar">Vishal-Shekhar</button> at Celeblitz, the closing celebrity night.</span></li>
+          <li><b>2017 (20th year)</b><span><button type="button" class="media-link" data-media="farhan-akhtar">Farhan Akhtar</button> at Celeblitz, with the X-Athon 10k and X-Enable as preludes.</span></li>
+          <li><b>2018</b><span><button type="button" class="media-link" data-media="sunidhi-chauhan">Sunidhi Chauhan</button> performed.</span></li>
+          <li><b>2019</b><span><button type="button" class="media-link" data-media="mika-singh">Mika Singh</button> at Celeblitz, stand-up by <button type="button" class="media-link" data-media="kumar-varun">Kumar Varun</button>, and a battle of the bands.</span></li>
+          <li><b>January 2023</b><span><button type="button" class="media-link" data-media="vishal-shekhar">Vishal-Shekhar</button> again, with stand-up by <button type="button" class="media-link" data-media="karunesh-talwar">Karunesh Talwar</button>. 29 companies sponsored this edition.</span></li>
+          <li><b>January 2024</b><span><button type="button" class="media-link" data-media="darshan-raval">Darshan Raval</button> on the celebrity night, <button type="button" class="media-link" data-media="sachin-jigar">Sachin-Jigar</button> on day three and comedy by <button type="button" class="media-link" data-media="aakash-gupta">Aakash Gupta</button>.</span></li>
+          <li><b>28 Feb to 1 Mar 2026</b><span><button type="button" class="media-link" data-media="amaal-mallik">Amaal Mallik</button> pro show, <button type="button" class="media-link" data-media="aashish-solanki">Aashish Solanki</button> comedy night and <button type="button" class="media-link" data-media="xenial-secrets">The Xenial Secrets</button> EDM night.</span></li>
         </ul>
       </div>
 
@@ -444,54 +452,71 @@ details p { padding-bottom: 16px; color: var(--muted); }
       </div>
 
       <div class="section">
+        <h2>Register your intent, event by event</h2>
+        <p class="sub">Tap a button on any card to tell the organisers you plan to attend. It takes one tap, needs no form, and you can withdraw any time. This is interest only, not a registration.</p>
+      </div>
+
+      <div class="section">
+        <h2>Xpressions '26 nights</h2>
+        <div class="comp-list">
+          <div class="comp" data-event="pro-show" data-cat="nights" data-icon="crown" data-img="img/stage.jpg"><small>CELEBRITY NIGHT</small><b>Celebrity pro show</b><p>The headline concert night. The artist will be announced by the organising team.</p></div>
+          <div class="comp" data-event="comedy-night" data-cat="nights" data-icon="laugh"><small>STAND-UP</small><b>Comedy night</b><p>Stand-up comedy on the main stage. The line-up will be announced by the organising team.</p></div>
+          <div class="comp" data-event="edm-night" data-cat="nights" data-icon="disc" data-img="img/crowd.jpg"><small>EDM</small><b>EDM night</b><p>A late-night DJ set, like Sunburn Night at Xpressions '25. The line-up will be announced by the organising team.</p></div>
+          <div class="comp" data-event="prom-night" data-cat="nights" data-icon="sparkle" data-img="img/fashion.jpg"><small>PROM</small><b>Prom: A Red Carpet Affair</b><p>The red-carpet prom night from Xpressions '25. Its return is to be confirmed.</p></div>
+        </div>
+      </div>
+
+      <div class="section">
         <h2>Business and management</h2>
         <div class="comp-list">
-          <div class="comp"><small>MAXIM</small><b>MPower</b><p>A case-study competition run by the marketing committee.</p></div>
-          <div class="comp"><small>CONSTRAT</small><b>Maven</b><p>A case-study competition from the consulting and strategy consortium. Constrat also runs Xhillerate.</p></div>
-          <div class="comp"><small>X-OPS</small><b>Aarohan and Nirnay</b><p>Aarohan is the operations case study. Nirnay is an in-house business simulation game.</p></div>
-          <div class="comp"><small>XSYS</small><b>Case Connect</b><p>A case study that tests business analytics skills.</p></div>
-          <div class="comp"><small>XFIN</small><b>Trade Wars and FinBid</b><p>A trading simulation game and a bidding session that tests strategic thinking.</p></div>
-          <div class="comp"><small>XSEED</small><b>Ad Valorem</b><p>A contest from the entrepreneurship cell where teams show their business talent.</p></div>
-          <div class="comp"><small>IRC</small><b>Pitch It Abroad</b><p>A national-level pitching competition.</p></div>
-          <div class="comp"><small>SOCIAL RESPONSIBILITY CELL</small><b>Vriddhi</b><p>A national-level CSR action-plan competition.</p></div>
-          <div class="comp"><small>SPEAKUP</small><b>XIM Model United Nations</b><p>Two councils: the UN Human Rights Council and the International Press.</p></div>
-          <div class="comp"><small>XQUIZZITE</small><b>Inquizzitive</b><p>The quiz committee's flagship event.</p></div>
+          <div class="comp" data-event="mpower" data-cat="business" data-icon="megaphone"><small>MAXIM</small><b>MPower</b><p>A case-study competition run by the marketing committee.</p></div>
+          <div class="comp" data-event="maven" data-cat="business" data-icon="bulb"><small>CONSTRAT</small><b>Maven</b><p>A case-study competition from the consulting and strategy consortium. Constrat also runs Xhillerate.</p></div>
+          <div class="comp" data-event="aarohan-nirnay" data-cat="business" data-icon="gear"><small>X-OPS</small><b>Aarohan and Nirnay</b><p>Aarohan is the operations case study. Nirnay is an in-house business simulation game.</p></div>
+          <div class="comp" data-event="case-connect" data-cat="business" data-icon="chart"><small>XSYS</small><b>Case Connect</b><p>A case study that tests business analytics skills.</p></div>
+          <div class="comp" data-event="trade-wars-finbid" data-cat="business" data-icon="trend"><small>XFIN</small><b>Trade Wars and FinBid</b><p>A trading simulation game and a bidding session that tests strategic thinking.</p></div>
+          <div class="comp" data-event="ad-valorem" data-cat="business" data-icon="rocket"><small>XSEED</small><b>Ad Valorem</b><p>A contest from the entrepreneurship cell where teams show their business talent.</p></div>
+          <div class="comp" data-event="pitch-it-abroad" data-cat="business" data-icon="globe"><small>IRC</small><b>Pitch It Abroad</b><p>A national-level pitching competition.</p></div>
+          <div class="comp" data-event="vriddhi" data-cat="business" data-icon="leaf"><small>SOCIAL RESPONSIBILITY CELL</small><b>Vriddhi</b><p>A national-level CSR action-plan competition.</p></div>
+          <div class="comp" data-event="ximun" data-cat="business" data-icon="chat"><small>SPEAKUP</small><b>XIM Model United Nations</b><p>Two councils: the UN Human Rights Council and the International Press.</p></div>
+          <div class="comp" data-event="inquizzitive" data-cat="business" data-icon="quiz"><small>XQUIZZITE</small><b>Inquizzitive</b><p>The quiz committee's flagship event.</p></div>
         </div>
       </div>
 
       <div class="section">
         <h2>Stage and cultural</h2>
         <div class="comp-list">
-          <div class="comp"><small>DANCE</small><b>Footloose and Thirkan</b><p>Footloose is Western dance. Thirkan is Indian dance.</p></div>
-          <div class="comp"><small>MUSIC</small><b>Symphony and Goonj</b><p>Symphony is Western singing. Goonj covers Indian and classical music.</p></div>
-          <div class="comp"><small>MUSIC</small><b>Decibelz</b><p>The band battle.</p></div>
-          <div class="comp"><small>THEATRE</small><b>Abhinay and Aaghaz</b><p>Abhinay is a mono-act. Aaghaz is the street play (nukkad natak).</p></div>
-          <div class="comp"><small>FASHION</small><b>Carnival de Vogue</b><p>The ramp-walk competition.</p></div>
-          <div class="comp"><small>ART</small><b>Paint@XIMB</b><p>A painting competition.</p></div>
-          <div class="comp"><small>X-LENS</small><b>Lensation</b><p>A photography competition.</p></div>
-          <div class="comp"><small>TEAM ILLUMINATIX</small><b>The Final Cut</b><p>The annual short-film making competition.</p></div>
-          <div class="comp"><small>LITSOC</small><b>Flight of Fancy</b><p>A quiz and treasure hunt.</p></div>
+          <div class="comp" data-event="footloose-thirkan" data-cat="stage" data-icon="dance"><small>DANCE</small><b>Footloose and Thirkan</b><p>Footloose is Western dance. Thirkan is Indian dance.</p></div>
+          <div class="comp" data-event="symphony-goonj" data-cat="stage" data-icon="mic"><small>MUSIC</small><b>Symphony and Goonj</b><p>Symphony is Western singing. Goonj covers Indian and classical music.</p></div>
+          <div class="comp" data-event="decibelz" data-cat="stage" data-icon="bolt"><small>MUSIC</small><b>Decibelz</b><p>The band battle.</p></div>
+          <div class="comp" data-event="abhinay-aaghaz" data-cat="stage" data-icon="mask"><small>THEATRE</small><b>Abhinay and Aaghaz</b><p>Abhinay is a mono-act. Aaghaz is the street play (nukkad natak).</p></div>
+          <div class="comp" data-event="carnival-de-vogue" data-cat="stage" data-icon="star" data-img="img/fashion.jpg"><small>FASHION</small><b>Carnival de Vogue</b><p>The ramp-walk competition.</p></div>
+          <div class="comp" data-event="paint-ximb" data-cat="stage" data-icon="palette"><small>ART</small><b>Paint@XIMB</b><p>A painting competition.</p></div>
+          <div class="comp" data-event="lensation" data-cat="stage" data-icon="camera"><small>X-LENS</small><b>Lensation</b><p>A photography competition.</p></div>
+          <div class="comp" data-event="final-cut" data-cat="stage" data-icon="film"><small>TEAM ILLUMINATIX</small><b>The Final Cut</b><p>The annual short-film making competition.</p></div>
+          <div class="comp" data-event="flight-of-fancy" data-cat="stage" data-icon="map"><small>LITSOC</small><b>Flight of Fancy</b><p>A quiz and treasure hunt.</p></div>
         </div>
       </div>
 
       <div class="section">
         <h2>Social and informal</h2>
         <div class="comp-list">
-          <div class="comp"><small>SPORTS COMMITTEE</small><b>X-Athon</b><p>A 10 km run for a cause.</p></div>
-          <div class="comp"><small>SOCIAL RESPONSIBILITY CELL</small><b>X-Enable</b><p>A sports event for specially-abled children.</p></div>
-          <div class="comp"><small>FUN</small><b>Foot of Fury</b><p>Human foosball.</p></div>
-          <div class="comp"><small>FUN</small><b>EnigmaX</b><p>An online treasure hunt for XIMB alumni.</p></div>
-          <div class="comp"><small>MEDIA</small><b>Big Xpressions</b><p>The RJ hunt competition.</p></div>
+          <div class="comp" data-event="x-athon" data-cat="social" data-icon="run"><small>SPORTS COMMITTEE</small><b>X-Athon</b><p>A 10 km run for a cause.</p></div>
+          <div class="comp" data-event="x-enable" data-cat="social" data-icon="heart"><small>SOCIAL RESPONSIBILITY CELL</small><b>X-Enable</b><p>A sports event for specially-abled children.</p></div>
+          <div class="comp" data-event="foot-of-fury" data-cat="social" data-icon="ball"><small>FUN</small><b>Foot of Fury</b><p>Human foosball.</p></div>
+          <div class="comp" data-event="enigmax" data-cat="social" data-icon="search"><small>FUN</small><b>EnigmaX</b><p>An online treasure hunt for XIMB alumni.</p></div>
+          <div class="comp" data-event="big-xpressions" data-cat="social" data-icon="radio"><small>MEDIA</small><b>Big Xpressions</b><p>The RJ hunt competition.</p></div>
+          <div class="comp" data-event="xigabyte" data-cat="social" data-icon="gamepad"><small>XSYS</small><b>Xigabyte</b><p>Console and PC gaming. At Xpressions '25 it ran for two days in the Exam Hall.</p></div>
         </div>
       </div>
 
       <div class="section">
         <h2>Performances at Xpressions '25</h2>
+        <p class="sub">Tap a name for the artist spotlight.</p>
         <div class="grid">
-          <div class="card"><h3>Amaal Mallik</h3><p>Pro show, 1 March, 7 pm onwards, XIM Ground.</p></div>
-          <div class="card"><h3>Aashish Solanki</h3><p>Comedy night, 28 February.</p></div>
-          <div class="card"><h3>The Xenial Secrets</h3><p>EDM night, called Sunburn Night, 28 February.</p></div>
-          <div class="card"><h3>Satyabrat</h3><p>Stand-up comedy, on a poster dated 28 February.</p></div>
+          <div class="card"><h3><button type="button" class="media-link" data-media="amaal-mallik">Amaal Mallik</button></h3><p>Pro show, 1 March, 7 pm onwards, XIM Ground.</p></div>
+          <div class="card"><h3><button type="button" class="media-link" data-media="aashish-solanki">Aashish Solanki</button></h3><p>Comedy night, 28 February.</p></div>
+          <div class="card"><h3><button type="button" class="media-link" data-media="xenial-secrets">The Xenial Secrets</button></h3><p>EDM night, called Sunburn Night, 28 February.</p></div>
+          <div class="card"><h3><button type="button" class="media-link" data-media="satyabrat">Satyabrat</button></h3><p>Stand-up comedy, on a poster dated 28 February.</p></div>
         </div>
       </div>
 
@@ -522,6 +547,12 @@ details p { padding-bottom: 16px; color: var(--muted); }
           <strong>Tentative</strong>
           <p>Xpressions '26 runs from 31 January to 1 February 2027. Registration details, including fees and deadlines, will be confirmed by the organising team.</p>
         </div>
+      </div>
+
+      <div class="section">
+        <h2>Pick the events you want to attend</h2>
+        <p class="sub">One tap per event, no form and no sign-in. Your interest helps the organisers plan venues and capacity, and you can withdraw it any time.</p>
+        <div class="hub" id="intentHub"></div>
       </div>
 
       <div class="section">
@@ -606,6 +637,7 @@ details p { padding-bottom: 16px; color: var(--muted); }
       <a href="#home">Home</a><a href="#highlights">Highlights</a><a href="#programme">Programme</a><a href="#competitions">Competitions</a><a href="#register">Register</a><a href="#faq">FAQ</a>
       <a href="https://www.instagram.com/ximbxpressions" target="_blank" rel="noopener">Instagram</a>
       <a href="https://luma.com/user/usr-GfukqIi26hdF0ZC" target="_blank" rel="noopener">Luma</a>
+      <a href="organisers.html">Organisers' dashboard</a>
     </div>
     <p>A student microsite project about the Xpressions fest of XIM University. It is not an official XIM University or Xpressions website. Details marked tentative are pending confirmation from the organising team. Photos: X-Lens.</p>
   </footer>
@@ -649,5 +681,12 @@ details p { padding-bottom: 16px; color: var(--muted); }
   show(current(), false);
 })();
 </script>
+<!-- Interactive layer: config first, then the effects engine, core, and feature modules -->
+<script src="js/config.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/fest.js"></script>
+<script src="js/media.js"></script>
+<script src="js/intent.js"></script>
+<script src="js/game.js"></script>
 
 </body></html>
