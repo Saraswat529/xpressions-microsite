@@ -14,6 +14,9 @@
   const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
   const cfg = window.XP_CONFIG || {};
   const XP = (window.XP = window.XP || {});
+  const EDITION = cfg.edition || "Xpressions'27";
+  XP.EDITION = EDITION;
+  XP.LOGO = cfg.logo || 'img/logo-xpressions-27.jpg';
   root.classList.add('xp');
   XP.reduced = () => reduceMQ.matches;
 
@@ -409,16 +412,16 @@
     if (!host || !cfg.festStart) return;
     const start = new Date(cfg.festStart).getTime(), end = new Date(cfg.festEnd || cfg.festStart).getTime();
     if (isNaN(start)) return;
-    const box = el('div', { class: 'countdown', role: 'timer', 'aria-label': "Countdown to Xpressions '26" });
+    const box = el('div', { class: 'countdown', role: 'timer', 'aria-label': 'Countdown to ' + EDITION });
     host.appendChild(box);
     const units = [['days', 86400], ['hrs', 3600], ['min', 60], ['sec', 1]];
-    box.innerHTML = '<p class="cd-label">Xpressions ’26 begins in</p><div class="cd-cells">' + units.map((u) => '<span class="cd-cell"><b data-u="' + u[0] + '">00</b><small>' + u[0] + '</small></span>').join('') + '</div>';
+    box.innerHTML = '<p class="cd-label">' + EDITION + ' begins in</p><div class="cd-cells">' + units.map((u) => '<span class="cd-cell"><b data-u="' + u[0] + '">00</b><small>' + u[0] + '</small></span>').join('') + '</div>';
     const cells = {};
     box.querySelectorAll('b[data-u]').forEach((b) => { cells[b.dataset.u] = b; });
     function tickCd() {
       const now = Date.now();
-      if (now >= end) { box.innerHTML = '<p class="cd-label">Thanks for coming to Xpressions ’26! Highlights are on the way.</p>'; return; }
-      if (now >= start) { box.innerHTML = '<p class="cd-label cd-live">Xpressions ’26 is happening right now!</p>'; return; }
+      if (now >= end) { box.innerHTML = '<p class="cd-label">Thanks for coming to ' + EDITION + '! Highlights are on the way.</p>'; return; }
+      if (now >= start) { box.innerHTML = '<p class="cd-label cd-live">' + EDITION + ' is happening right now!</p>'; return; }
       let s = Math.floor((start - now) / 1000);
       units.forEach((u) => {
         const v = Math.floor(s / u[1]); s -= v * u[1];
@@ -466,7 +469,7 @@
     'The 2021 edition went fully online in February 2022, with 24 events.',
     "More than 25 partner brands backed Xpressions '25.",
     'X-Athon is a 10 km run for a cause.',
-    "Editions are named for the academic year, so Xpressions '26 happens in 2027."
+    EDITION + ' runs from 31 January to 1 February 2027.'
   ];
   function surprises() {
     const brand = d.querySelector('.brand');
@@ -535,7 +538,7 @@
     addEventListener('hashchange', onPage);
     onPage();
     checkBadges();
-    if (window.console) console.log('%cXpressions ’26', 'font:700 20px sans-serif;color:#ffa534', '\nYou found the console. Psst: tap the logo five times.');
+    if (window.console) console.log('%c' + EDITION,'font:700 20px sans-serif;color:#ffa534', '\nYou found the console. Psst: tap the logo five times.');
   }
   XP.ready = new Promise((res) => {
     const go = () => { init(); res(); };

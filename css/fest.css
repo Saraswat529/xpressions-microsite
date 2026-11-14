@@ -1,5 +1,5 @@
 /*
- * Xpressions '26 interactive layer.
+ * Xpressions'27 interactive layer.
  * Extends the original night-stage theme in index.html (same tokens, fonts and colours).
  */
 :root {
@@ -38,6 +38,29 @@
 /* ---------- click pop ---------- */
 .fx-pop { animation: xp-pop .5s var(--ease-back); }
 @keyframes xp-pop { 0% { scale: 1; } 35% { scale: .93; filter: brightness(1.25); } 70% { scale: 1.04; } 100% { scale: 1; filter: none; } }
+
+/* ---------- official Xpressions'27 logo ----------
+   The logo file is used unmodified. Its solid black background is blended into the dark
+   theme with `screen` (black becomes transparent; the artwork itself is untouched). */
+.brand { display: inline-flex; align-items: center; line-height: 0; text-shadow: none; flex: none; }
+.brand-logo { height: 48px; width: auto; display: block; mix-blend-mode: screen; transition: transform .35s var(--ease-back), filter .3s; }
+.brand:hover .brand-logo { transform: scale(1.04); filter: brightness(1.15); }
+@media (max-width: 420px) { .brand-logo { height: 40px; } }
+/* In the content area the logo sits on a black "stage screen" panel. The panel's black matches the
+   logo's own background, so the artwork reads seamlessly, and the glow lives on the panel, not the logo. */
+.logo-plate {
+  display: block; justify-self: start; width: fit-content; max-width: 100%; line-height: 0;
+  background: #000; border-radius: 20px; padding: 8px 14px; border: 1px solid rgba(82, 199, 255, .28);
+  box-shadow: 0 0 0 1px rgba(255, 165, 52, .06), 0 18px 50px -22px rgba(82, 199, 255, .55);
+}
+.hero-logo-plate { animation: xp-logo-in 1.1s var(--ease-out) both, xp-plate-glow 4.5s ease-in-out 1.3s infinite; }
+.hero-logo { display: block; width: min(100%, 440px); height: auto; }
+@keyframes xp-logo-in { from { opacity: 0; transform: translateY(16px) scale(.95); } to { opacity: 1; transform: none; } }
+@keyframes xp-plate-glow {
+  50% { border-color: rgba(255, 165, 52, .45); box-shadow: 0 0 0 1px rgba(255, 165, 52, .12), 0 0 38px -6px rgba(82, 199, 255, .45), 0 0 60px -18px rgba(255, 165, 52, .45); }
+}
+.footer-logo { padding: 6px 12px; border-radius: 16px; }
+.footer-logo img { height: 68px; width: auto; display: block; }
 
 /* ---------- header additions ---------- */
 .xp-chip {

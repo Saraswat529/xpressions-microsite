@@ -180,7 +180,7 @@
     box.innerHTML =
       '<div class="reward"><div class="medal" aria-hidden="true"><span class="medal-rays"></span><span class="medal-face">' + MASCOT + '</span></div>' +
       '<p class="reward-title">Achievement unlocked: Xpressions Explorer</p>' +
-      "<p>You found all nine Explorers. That makes you one of the most curious people at Xpressions ’26. Make it official with your certificate.</p>" +
+      "<p>You found all nine Explorers. That makes you one of the most curious people at Xpressions'27. Make it official with your certificate.</p>" +
       '<form class="cert-form" novalidate><label for="certName">Name for your certificate</label>' +
       '<div class="cert-row"><input id="certName" name="certName" type="text" maxlength="40" autocomplete="name" required aria-describedby="certHelp certErr" placeholder="Your name">' +
       '<button type="submit" class="btn primary">Create certificate</button></div>' +
@@ -252,12 +252,21 @@
     g.shadowBlur = 0;
     g.fillStyle = '#eef1fb'; g.font = '500 36px ' + body;
     g.fillText('found all nine hidden Xpressions Explorers', W / 2, 680);
-    g.fillText("on the Xpressions ’26 microsite.", W / 2, 730);
+    g.fillText('on the ' + (XP.EDITION || "Xpressions'27") + ' microsite.', W / 2, 730);
     g.fillStyle = '#a6aecb'; g.font = '500 28px ' + body;
     const when = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-    g.fillText('Awarded on ' + when, W / 2, 830);
-    g.fillStyle = '#eef1fb'; g.font = '700 34px ' + disp; g.fillText("XPRESSIONS ’26", W / 2, 930);
-    g.fillStyle = '#a6aecb'; g.font = '500 24px ' + body; g.fillText('31 Jan to 1 Feb 2027 · XIM University, Bhubaneswar', W / 2, 972);
+    g.fillText('Awarded on ' + when, W / 2, 800);
+    try {
+      // The official logo, uniformly scaled; 'screen' lets its black background melt into the certificate.
+      const logo = await loadImage(XP.LOGO || 'img/logo-xpressions-27.jpg');
+      const lw = 340, lh = lw * logo.naturalHeight / logo.naturalWidth;
+      g.globalCompositeOperation = 'screen';
+      g.drawImage(logo, (W - lw) / 2, 830, lw, lh);
+      g.globalCompositeOperation = 'source-over';
+    } catch (e) {
+      g.fillStyle = '#eef1fb'; g.font = '700 34px ' + disp; g.fillText((XP.EDITION || "Xpressions'27").toUpperCase(), W / 2, 930);
+    }
+    g.fillStyle = '#a6aecb'; g.font = '500 24px ' + body; g.fillText('31 Jan to 1 Feb 2027 · XIM University, Bhubaneswar', W / 2, 990);
     return c.toDataURL('image/png');
   }
 

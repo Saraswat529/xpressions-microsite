@@ -1,5 +1,5 @@
 /*
- * Xpressions '26 site configuration.
+ * Xpressions'27 site configuration.
  *
  * The "Register Your Intent" tracker stores interest in a shared Supabase database
  * so every visitor and the organisers see the same numbers. Until the two Supabase
@@ -10,6 +10,10 @@
  * Setup steps: see README.md ("Switch on the live intent tracker").
  */
 window.XP_CONFIG = Object.assign({
+  // Branding used by the scripts (countdown, certificate, messages). The logo file is also
+  // referenced in index.html (header, hero, footer, favicons, share image), all under img/.
+  edition: "Xpressions'27",
+  logo: 'img/logo-xpressions-27.jpg',
   // Supabase project URL, for example: https://abcdefghijkl.supabase.co
   supabaseUrl: 'https://nfgdufbxvbhkcndufzhf.supabase.co',
   // Supabase "anon public" API key. It is designed to be public; the database only

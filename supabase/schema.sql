@@ -1,4 +1,4 @@
--- Xpressions '26: "Register Your Intent" tracker
+-- Xpressions'27: "Register Your Intent" tracker
 -- Run this once in your Supabase project: Dashboard -> SQL Editor -> New query -> paste -> Run.
 -- It is safe to run again (idempotent).
 --

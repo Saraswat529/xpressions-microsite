@@ -1,8 +1,20 @@
-# Xpressions '26 microsite
+# Xpressions'27 microsite
 
-A student-made microsite for Xpressions '26 (31 Jan to 1 Feb 2027), the management and cultural fest of XIM University, Bhubaneswar. It is a static site: plain HTML, CSS and JavaScript, with no build step and no dependencies. It is hosted on GitHub Pages.
+A student-made microsite for Xpressions'27 (31 Jan to 1 Feb 2027), the management and cultural fest of XIM University, Bhubaneswar. It is a static site: plain HTML, CSS and JavaScript, with no build step and no dependencies. It is hosted on GitHub Pages.
 
 Live site: https://saraswat529.github.io/xpressions-microsite/
+
+## Branding
+
+| Asset | Use |
+| --- | --- |
+| `img/logo-xpressions-27.jpg` | The official logo, an unmodified copy. Used in the header, the hero, the footer, the organisers' dashboard and the Explorer certificate. |
+| `img/favicon-32.png`, `img/apple-touch-icon.png`, `img/icon-512.png` | Browser and home-screen icons, cropped from the logo's "ximb X" swoosh. |
+| `img/og-xpressions-27.jpg` | The 1200×630 image shown when the link is shared, with the full logo and the dates. |
+
+The edition name and logo path that the scripts use live in `js/config.js` (`edition`, `logo`). To change the logo, replace `img/logo-xpressions-27.jpg` with a file of the same name, or update the references in `index.html` and `organisers.html`.
+
+The logo has a solid black background. In the header it blends into the dark bar (`mix-blend-mode: screen`). In the hero and footer it sits on a black panel that matches its background. The artwork itself is never altered.
 
 ## Files
 

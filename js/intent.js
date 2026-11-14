@@ -22,7 +22,7 @@
   const POLL = Math.max(10, Number(cfg.pollSeconds) || 20) * 1000;
   const WHEN = (cfg.festDates || '31 Jan to 1 Feb 2027') + ' · timing to be announced';
   const LABELS = ["I'm Interested!", 'Count Me In!', 'I Plan to Attend!', 'Add Me to the Crowd!'];
-  const CATS = { nights: "Xpressions '26 nights", business: 'Business and management', stage: 'Stage and cultural', social: 'Social and informal' };
+  const CATS = { nights: "Xpressions'27 nights", business: 'Business and management', stage: 'Stage and cultural', social: 'Social and informal' };
   const SHORT = { nights: 'Nights', business: 'Business', stage: 'Stage', social: 'Social' };
 
   const events = [];

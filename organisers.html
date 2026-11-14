@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Xpressions Intent Dashboard</title>
+<title>Xpressions'27 Intent Dashboard</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -69,7 +71,8 @@ code { background: var(--surface-2); padding: 2px 6px; border-radius: 6px; font-
 <div class="wrap">
   <div class="top">
     <div>
-      <p class="eyebrow">Xpressions '26 · Organisers</p>
+      <a href="index.html" aria-label="Xpressions'27 home" style="display:inline-block;line-height:0;margin-bottom:8px"><img src="img/logo-xpressions-27.jpg" width="497" height="191" alt="ximb Xpressions 2027" style="height:64px;width:auto;mix-blend-mode:screen"></a>
+      <p class="eyebrow">Xpressions'27 · Organisers</p>
       <h1>Register Your Intent dashboard</h1>
       <p class="muted">Live interest from visitors to the microsite. <a href="index.html">Back to the site</a></p>
     </div>
@@ -133,7 +136,7 @@ code { background: var(--surface-2); padding: 2px 6px; border-radius: 6px; font-
   'use strict';
   var cfg = window.XP_CONFIG || {};
   var LIVE = !!(cfg.supabaseUrl && cfg.supabaseAnonKey);
-  var CAT = { nights: "Xpressions '26 nights", business: 'Business and management', stage: 'Stage and cultural', social: 'Social and informal' };
+  var CAT = { nights: "Xpressions'27 nights", business: 'Business and management', stage: 'Stage and cultural', social: 'Social and informal' };
   var rows = [], sortKey = 'interested', sortDir = -1;
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
