@@ -11,10 +11,10 @@
  */
 window.XP_CONFIG = Object.assign({
   // Supabase project URL, for example: https://abcdefghijkl.supabase.co
-  supabaseUrl: '',
+  supabaseUrl: 'https://nfgdufbxvbhkcndufzhf.supabase.co',
   // Supabase "anon public" API key. It is designed to be public; the database only
   // allows the actions defined in supabase/schema.sql.
-  supabaseAnonKey: '',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mZ2R1ZmJ4dmJoa2NuZHVmemhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NTkwNTIsImV4cCI6MjExMDIzNTA1Mn0.Z6K5fA79bODt8-HDPRZeQSIRIIOBItKNIZleb2kpON0',
   // How often live interest counts refresh, in seconds.
   pollSeconds: 20,
   // Fest dates shown on event cards until a detailed schedule is out.
