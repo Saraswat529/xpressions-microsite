@@ -208,8 +208,8 @@
       (rows || []).forEach((r) => { counts[r.event_id] = Number(r.interested) || 0; });
       events.forEach((ev) => { if (counts[ev.id] == null) counts[ev.id] = 0; });
       events.forEach((ev) => { if (old[ev.id] !== counts[ev.id] && !pending[ev.id]) renderEvent(ev.id, old[ev.id] == null ? 0 : old[ev.id]); });
-      renderHot();
       setStatus('live');
+      renderHot();
     } catch (e) {
       setStatus('error');
     }
