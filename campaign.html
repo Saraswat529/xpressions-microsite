@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Xpressions'27 Campaign Toolkit</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1f; --surface: #121936; --surface-2: #19224a; --line: #2b3668; --fg: #eef1fb; --muted: #a6aecb;
+  --amber: #ffa534; --blue: #52c7ff; --rose: #ff6aa6; --mint: #7dffb2; --violet: #9b8cff;
+  --font-display: "Unbounded", "Trebuchet MS", sans-serif; --font-body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--font-body); padding: 0 max(16px, env(safe-area-inset-left)) 64px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; }
+p { margin: 0; }
+a { color: var(--blue); }
+code { background: var(--surface-2); padding: 2px 6px; border-radius: 6px; font-size: .86em; overflow-wrap: anywhere; }
+.muted { color: var(--muted); }
+.small { font-size: .88rem; }
+.eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; color: var(--blue); font-weight: 700; }
+.top { position: sticky; top: 0; z-index: 10; background: rgba(10, 14, 31, .95); border-bottom: 1px solid var(--line); margin: 0 calc(-1 * max(16px, env(safe-area-inset-left))); padding: 12px max(16px, env(safe-area-inset-left)); }
+.top-in { max-width: 1120px; margin: 0 auto; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+.top img { height: 46px; width: auto; mix-blend-mode: screen; display: block; }
+.toc { display: flex; gap: 6px; flex-wrap: wrap; }
+.toc a { color: var(--fg); text-decoration: none; font-weight: 700; font-size: .85rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); }
+.toc a:hover { border-color: var(--amber); color: var(--amber); }
+.intro { display: grid; gap: 10px; padding-top: 18px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: grid; gap: 14px; min-width: 0; scroll-margin-top: 90px; }
+.panel > header { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: end; }
+.btn { font: inherit; font-weight: 700; min-height: 42px; padding: 8px 16px; border-radius: 999px; border: 2px solid var(--amber); background: transparent; color: var(--fg); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn:hover { background: rgba(255, 165, 52, .12); }
+.btn.primary { background: var(--amber); color: #1a1100; }
+.btn.sm { min-height: 34px; padding: 4px 12px; font-size: .85rem; border-width: 1px; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.status { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: .9rem; }
+.status i { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+.status.live i { background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+.status.error i, .status.setup i { background: var(--amber); }
+.kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); }
+.kpi { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 2px; }
+.kpi b { font-family: var(--font-display); font-size: 1.7rem; color: var(--amber); font-variant-numeric: tabular-nums; }
+.kpi span { color: var(--muted); font-size: .85rem; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--blue); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.links { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); }
+.link-card { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; grid-template-columns: 112px 1fr; gap: 14px; align-items: start; }
+.link-card canvas { width: 112px; height: 112px; border-radius: 10px; background: #fff; }
+.link-card .meta { display: grid; gap: 6px; min-width: 0; }
+.link-card .url { font-size: .78rem; color: var(--muted); overflow-wrap: anywhere; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+form.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); align-items: end; }
+label { display: grid; gap: 4px; font-weight: 700; font-size: .88rem; }
+input, select, textarea { font: inherit; font-weight: 400; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-height: 44px; width: 100%; }
+textarea { min-height: 80px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--amber); outline-offset: 1px; }
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--rose); }
+.err { color: var(--rose); font-size: .88rem; }
+.ok { color: var(--mint); font-size: .88rem; }
+.span-all { grid-column: 1 / -1; }
+.creatives { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); align-items: start; }
+.creative { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
+.creative canvas { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: #000; display: block; }
+.tag { display: inline-block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: 3px 8px; border-radius: 6px; background: rgba(82, 199, 255, .14); color: var(--blue); }
+.ab { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.variant { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 8px; }
+.variant .hl { font-family: var(--font-display); font-size: 1.25rem; }
+.variant .rate { font-family: var(--font-display); font-size: 2rem; color: var(--amber); }
+.bar { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--amber)); transition: width .8s; }
+.verdict { padding: 12px 14px; border-radius: 12px; border-left: 4px solid var(--amber); background: rgba(255, 165, 52, .08); }
+.days { display: grid; gap: 6px; }
+.day-row { display: grid; grid-template-columns: 110px 1fr 90px; gap: 10px; align-items: center; font-size: .9rem; }
+.notice { border: 1px dashed var(--amber); background: rgba(255, 165, 52, .06); border-radius: 14px; padding: 14px 16px; display: grid; gap: 6px; }
+.notice ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 480px) { .link-card { grid-template-columns: 1fr; } .link-card canvas { width: 160px; height: 160px; } .day-row { grid-template-columns: 84px 1fr 70px; } }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="top-in">
+    <a href="index.html" aria-label="Back to the Xpressions'27 site"><img src="img/logo-xpressions-27.jpg" width="497" height="191" alt="ximb Xpressions 2027"></a>
+    <nav class="toc" aria-label="Sections">
+      <a href="#results">Results</a><a href="#experiment">A/B test</a><a href="#links">Links and QR</a><a href="#creatives">Creatives</a><a href="#log">Campaign log</a><a href="organisers.html">Interest dashboard</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="intro">
+    <p class="eyebrow">Step 4 · Traffic-generation campaign</p>
+    <h1>Campaign toolkit</h1>
+    <p class="muted">Campaign <code id="cName"></code> runs from <b id="cDates"></b>. Every link and QR code below is tagged with its channel, so this page can show which channels bring visitors and who goes on to register interest. Data is anonymous.</p>
+    <p class="status" id="status"><i></i><span>Connecting…</span></p>
+    <div class="notice" id="setup" hidden>
+      <strong>One-time setup needed</strong>
+      <p>The tracking tables are not in the database yet. In Supabase, open <b>SQL Editor</b>, paste the whole of <code>supabase/campaign.sql</code>, change the passcode on the line marked <code>&gt;&gt;&gt;</code>, and click <b>Run</b>. Then reload this page.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="results">
+    <header><h2>Results by channel</h2><div class="row"><button class="btn sm" type="button" id="refresh">Refresh</button><button class="btn sm" type="button" id="csvTraffic">Download CSV</button></div></header>
+    <div class="kpis">
+      <div class="kpi"><b id="kVisits">–</b><span>Visits (sessions)</span></div>
+      <div class="kpi"><b id="kVisitors">–</b><span>Unique visitors</span></div>
+      <div class="kpi"><b id="kCta">–</b><span>"Register Your Intent" clicks</span></div>
+      <div class="kpi"><b id="kIntents">–</b><span>Interests registered</span></div>
+      <div class="kpi"><b id="kExplorers">–</b><span>Explorers found</span></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source</th><th>Medium</th><th class="num">Visits</th><th class="num">Visitors</th><th class="num">CTA click rate</th><th class="num">Registered interest</th><th class="num">Conversion</th></tr></thead>
+        <tbody id="channelRows"><tr><td colspan="7" class="muted">No data yet.</td></tr></tbody>
+      </table>
+    </div>
+    <h3>By creative and placement</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source / medium</th><th>Campaign</th><th>Content (creative)</th><th class="num">Visits</th><th class="num">Visitors with interest</th></tr></thead>
+        <tbody id="contentRows"><tr><td colspan="5" class="muted">No tagged visits yet.</td></tr></tbody>
+      </table>
+    </div>
+    <h3>Visits per day (IST)</h3>
+    <div class="days" id="days"><p class="muted small">No data yet.</p></div>
+    <p class="muted small" id="firstEvent"></p>
+  </section>
+
+  <section class="panel" id="experiment">
+    <header><h2>Marketing experiment: A/B headline test</h2><span class="tag">Running</span></header>
+    <p><b>Question:</b> does a personal, invitation-style headline get more visitors to register their interest than the original three-word headline?</p>
+    <p class="muted small"><b>How it works:</b> each new visitor is randomly shown version A or B of the home page headline, 50/50, and keeps that version on return visits. We compare the share of visitors who click "Register Your Intent Now" (primary metric) and who go on to register interest in at least one event (secondary metric). Preview a version with <a href="index.html?ab=a" target="_blank" rel="noopener">?ab=a</a> or <a href="index.html?ab=b" target="_blank" rel="noopener">?ab=b</a>. Preview visits are not counted.</p>
+    <div class="ab" id="abCards"></div>
+    <p class="verdict" id="verdict">Waiting for data.</p>
+    <p class="muted small"><b>Ethics:</b> both headlines are truthful and lead to the same content. No personal data is collected; visitors are identified only by a random ID in their browser. Browsers sending Do Not Track or Global Privacy Control are excluded. The test is disclosed in the site's FAQ ("Does this site track me?").</p>
+  </section>
+
+  <section class="panel" id="links">
+    <header><h2>Trackable links and QR codes</h2><span class="muted small">Use one link per channel so each one is counted separately.</span></header>
+    <div class="links" id="linkCards"></div>
+    <h3>Make a custom link</h3>
+    <form class="grid" id="builder" novalidate>
+      <label>Source <input name="source" placeholder="e.g. instagram" required></label>
+      <label>Medium <input name="medium" placeholder="e.g. social, story, print" required></label>
+      <label>Content <input name="content" placeholder="e.g. reel_teaser" required></label>
+      <label>Opens on
+        <select name="page"><option value="">Home</option><option value="#register">Register</option><option value="#competitions">Competitions</option><option value="#highlights">Highlights</option></select>
+      </label>
+      <button class="btn primary" type="submit">Create link</button>
+      <p class="err span-all" id="builderErr" role="alert" hidden></p>
+      <div class="links span-all" id="customOut"></div>
+    </form>
+  </section>
+
+  <section class="panel" id="creatives">
+    <header><h2>Promotional creatives</h2><span class="muted small">Three creatives, each with a different message and format. Each carries its own tracked QR code.</span></header>
+    <div class="creatives" id="creativeCards"></div>
+  </section>
+
+  <section class="panel" id="log">
+    <header><h2>Dated campaign log</h2><div class="row"><button class="btn sm" type="button" id="csvLog">Download CSV</button></div></header>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Channel</th><th>Action</th><th>Link or proof</th><th>By</th><th><span class="sr-only">Delete</span></th></tr></thead>
+        <tbody id="logRows"><tr><td colspan="6" class="muted">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <h3>Add an entry</h3>
+    <form class="grid" id="logForm" novalidate>
+      <label>Date <input type="date" name="date" required></label>
+      <label>Channel
+        <input name="channel" list="channelList" placeholder="e.g. Instagram story" required>
+        <datalist id="channelList"><option>Instagram post</option><option>Instagram story</option><option>Instagram bio</option><option>WhatsApp groups</option><option>Campus posters</option><option>LinkedIn</option><option>Email</option><option>Website</option></datalist>
+      </label>
+      <label>Your name <input name="author" placeholder="Optional" maxlength="60"></label>
+      <label>Team passcode <input name="passcode" type="password" autocomplete="off" required></label>
+      <label class="span-all">What was done <textarea name="action" maxlength="600" placeholder="e.g. Posted creative 2 (story) on @ximbxpressions with the tracked link sticker; shared in 6 class WhatsApp groups." required></textarea></label>
+      <label class="span-all">Link or proof <input name="link" type="url" placeholder="Optional, e.g. the post URL"></label>
+      <div class="row span-all"><button class="btn primary" type="submit">Add to log</button><p id="logMsg" role="status"></p></div>
+    </form>
+  </section>
+</div>
+
+<script src="js/config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="js/campaign.js"></script>
+</body>
+</html>

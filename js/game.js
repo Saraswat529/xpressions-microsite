@@ -97,6 +97,7 @@
     if (found[spot.id]) return;
     found[spot.id] = Date.now();
     XP.store.set('hunt', found);
+    d.dispatchEvent(new CustomEvent('xp:explorer', { detail: { id: spot.id } }));
     const r = b.getBoundingClientRect();
     if (window.XPFX) XPFX.burst(r.left + r.width / 2, r.top + r.height / 2, { size: 'xl' });
     b.classList.add('found');

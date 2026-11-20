@@ -158,6 +158,7 @@
         if (on && mine[id]) mine[id].synced = true;
         saveMine();
         setStatus('live');
+        d.dispatchEvent(new CustomEvent('xp:intent', { detail: { id, on } }));
       } catch (err) {
         if (on) delete mine[id]; else mine[id] = { at: Date.now(), synced: true };
         counts[id] = before;

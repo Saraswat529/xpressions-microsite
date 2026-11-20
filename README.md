@@ -30,6 +30,10 @@ The logo has a solid black background. In the header it blends into the dark bar
 | `js/game.js` | The Find the Xpressions Explorer hunt (9 Explorers, 3 levels, with a downloadable certificate at the end). |
 | `organisers.html` | The organisers' dashboard: interest per event, the most popular events and totals, with CSV export. |
 | `supabase/schema.sql` | The database tables and functions for the intent tracker. |
+| `js/track.js` | Campaign attribution from UTM links and QR codes, the A/B headline test, and anonymous event logging. |
+| `campaign.html`, `js/campaign.js` | The campaign toolkit: tracked links and QR codes, three creatives, results by channel, live A/B results and the dated campaign log. |
+| `supabase/campaign.sql` | The database tables and functions for campaign tracking and the log. Run it once, after setting the team passcode. |
+| `campaign/` | The campaign plan (`CAMPAIGN.md`), the three creatives and the QR codes as PNG files. |
 
 ## Switch on the live intent tracker
 

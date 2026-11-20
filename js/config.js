@@ -14,6 +14,21 @@ window.XP_CONFIG = Object.assign({
   // referenced in index.html (header, hero, footer, favicons, share image), all under img/.
   edition: "Xpressions'27",
   logo: 'img/logo-xpressions-27.jpg',
+  // A/B experiment (js/track.js). Variant A is the headline already in index.html.
+  // Visitors are split 50/50 and keep their variant. Preview with ?ab=a or ?ab=b.
+  experiment: {
+    id: 'hero_headline',
+    selector: '#p-home .hero h1',
+    a: { label: 'Compete. Perform. Celebrate.' },
+    b: {
+      label: 'Find your stage at Xpressions\'27.',
+      html: '<span class="w" style="--i:0">Find</span> <span class="w" style="--i:1">your</span> <em class="w" style="--i:2">stage.</em>'
+    },
+    metric: 'Share of visitors who click the hero "Register Your Intent Now" button'
+  },
+  // Campaign period and the canonical public URL used to build tracked links and QR codes.
+  campaign: { name: 'xp27_nov', start: '2026-11-08', end: '2026-11-20' },
+  siteUrl: 'https://saraswat529.github.io/xpressions-microsite/',
   // Supabase project URL, for example: https://abcdefghijkl.supabase.co
   supabaseUrl: 'https://nfgdufbxvbhkcndufzhf.supabase.co',
   // Supabase "anon public" API key. It is designed to be public; the database only
