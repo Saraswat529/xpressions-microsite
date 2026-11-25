@@ -31,7 +31,7 @@ window.XP_CONFIG = Object.assign({
   improvements: [
     {
       id: 'shorter_path',
-      launched: '2026-11-25T07:30:00+05:30',
+      launched: '2026-11-25T12:55:00+05:30',
       title: 'Shorter path to registering interest',
       finding: 'Visitors clicked "Register Your Intent Now" and reached the Register page, but none tapped an event: the event picker sat below a notice and needed scrolling, and the home page had no way to register directly.',
       change: 'Moved the event picker to the top of the Register page, added one-tap "Count Me In" buttons to the home page\'s Most wanted cards, and added an "Add to calendar" schedule download on Home, Programme and Register.',
