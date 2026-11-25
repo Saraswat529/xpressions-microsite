@@ -185,6 +185,7 @@
     const limits = [
       'Small sample: ' + t.sessions + ' sessions from ' + t.users + ' users. Percentages move a lot with each visit and are directional, not conclusive.',
       'Anonymous browser IDs: one person on two devices counts as two users, and clearing the browser creates a new user.',
+      'Some sessions are probably automated (crawlers or link checkers), for example a burst of 12 desktop, zero-engagement sessions just after 12:55 pm on 25 Nov. A bot filter has run since 1:05 pm IST on 25 Nov; earlier automated visits remain in the totals.',
       'Visitors whose browsers send Do Not Track or Global Privacy Control, or who block scripts, are not counted.',
       'Engagement time, device type, registration starts, downloads and content clicks were added on 25 Nov, so earlier sessions lack them.',
       'The event interest counters shown on the site include sample data prepared for the mock presentation; this report uses only the separate visit analytics, which are real recorded sessions.',

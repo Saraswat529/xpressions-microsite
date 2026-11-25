@@ -21,6 +21,8 @@
   const exp = cfg.experiment || {};
   const params = new URLSearchParams(location.search);
   const optOut = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl === true;
+  // Automated browsers (crawlers, link checkers, test tools) identify themselves this way; keep them out of the data.
+  const bot = navigator.webdriver === true || /bot|crawl|spider|slurp|headless|lighthouse|preview/i.test(navigator.userAgent);
 
   const ls = {
     get(k) { try { const v = localStorage.getItem('xp:' + k); return v == null ? null : JSON.parse(v); } catch (e) { return null; } },
@@ -87,7 +89,7 @@
     : (coarse || /Mobi|Android|iPhone/i.test(navigator.userAgent)) ? 'mobile' : 'desktop';
 
   /* ---------- logging ---------- */
-  const canLog = LIVE && !optOut && !preview;
+  const canLog = LIVE && !optOut && !preview && !bot;
   let count = 0;
   let disabled = !!ss.get('trackOff');
   // Before supabase/analytics.sql is installed, the database only knows the older log_event

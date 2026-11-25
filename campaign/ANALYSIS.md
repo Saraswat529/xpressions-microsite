@@ -61,7 +61,7 @@ Figures below are a snapshot at that time. The live report keeps updating, so re
 | Conversion rate | 0.0% | | |
 | Schedule downloads | n/a | | |
 
-**Observed effect so far:** at the time of writing, no sessions had arrived after the change, so the effect cannot be reported yet. The report shows "too early to measure" until at least 20 sessions arrive after the change. It then shows the before/after figures with a significance test. Fill in the table from the "Improvement" section of the live report before presenting.
+**Observed effect so far:** in the first 36 minutes after the change (to 1:01 pm IST), 12 sessions were recorded. All 12 look automated rather than human: 12 different "users" a few minutes apart, all desktop, all direct, one home-page view each, and no time on screen or clicks. A bot filter was added at 1:05 pm IST (automated browsers identify themselves through `navigator.webdriver` or their user-agent). No genuine post-change sessions yet, so **the effect cannot be reported yet**. The report shows "too early to measure" until at least 20 sessions arrive after the change. It then shows the before/after figures with a significance test. Fill in the table from the "Improvement" section of the live report before presenting.
 
 ## 4. Recommended changes
 
@@ -81,6 +81,7 @@ Figures below are a snapshot at that time. The live report keeps updating, so re
 
 ## 6. Limitations
 
+- **Automated visits:** some sessions are probably from crawlers or link checkers (for example the 12 desktop, zero-engagement sessions just after 12:55 pm on 25 Nov). A bot filter has run since 1:05 pm IST on 25 Nov; earlier automated visits remain in the totals.
 - **Very small sample:** 37 sessions from 32 users. Each visit moves the percentages a lot, so these are indications, not conclusions.
 - **Late start:** tracking began on 20 Nov at 8:34 pm IST, after most of the 8–20 Nov campaign. Earlier visits weren't recorded, because the site host keeps no visitor logs.
 - **Late-added metrics:** engagement time, device type, registration-start events, content clicks and schedule downloads were added on 25 Nov, so they cover only the most recent period.
