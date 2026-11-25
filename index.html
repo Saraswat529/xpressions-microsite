@@ -215,7 +215,7 @@ details p { padding-bottom: 16px; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
-<link rel="stylesheet" href="css/fest.css?v=20261120b">
+<link rel="stylesheet" href="css/fest.css?v=20261125">
 
 <div class="wrap">
   <header class="site-header">
@@ -278,7 +278,7 @@ details p { padding-bottom: 16px; color: var(--muted); }
             <div><dt>Pro show</dt><dd>Artists to be announced</dd></div>
             <div><dt>Last edition</dt><dd>Xpressions '25, 28 Feb to 1 Mar 2026, with Amaal Mallik, Aashish Solanki and The Xenial Secrets</dd></div>
           </dl>
-          <div class="btn-row"><a class="btn ghost" href="#programme">Full programme</a><a class="btn ghost" href="#highlights">Highlights</a></div>
+          <div class="btn-row"><a class="btn ghost" href="#programme">Full programme</a><button type="button" class="btn ghost" data-download="calendar">Add to calendar</button><a class="btn ghost" href="#highlights">Highlights</a></div>
         </div>
       </div>
 
@@ -394,6 +394,10 @@ details p { padding-bottom: 16px; color: var(--muted); }
         <div class="notice">
           <strong>Tentative</strong>
           <p>Xpressions'27 runs from Sunday 31 January to Monday 1 February 2027. The detailed schedule is tentative until the organising team confirms it. The programme below is last year's Xpressions '25, and shows the format to expect.</p>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" data-download="calendar">Download the schedule to your calendar (.ics)</button>
+          <a class="btn ghost" data-download="google_calendar" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Xpressions%2727%20%C2%B7%20XIM%20University&amp;dates=20270131/20270202&amp;location=XIM%20University%20Old%20Campus%2C%20Jayadev%20Vihar%2C%20Bhubaneswar&amp;details=The%20management%20and%20cultural%20fest%20of%20XIM%20University.%20https%3A%2F%2Fsaraswat529.github.io%2Fxpressions-microsite%2F">Add to Google Calendar</a>
         </div>
       </div>
 
@@ -561,16 +565,17 @@ details p { padding-bottom: 16px; color: var(--muted); }
       <p class="lead" style="margin-top: 12px;">Xpressions'27 is on 31 January and 1 February 2027. Here is how to be ready.</p>
 
       <div class="section" style="margin-top: 24px;">
+        <h2>Pick the events you want to attend</h2>
+        <p class="sub">One tap per event, no form and no sign-in. Your interest helps the organisers plan venues and capacity, and you can withdraw it any time.</p>
+        <div class="hub" id="intentHub"></div>
+      </div>
+
+      <div class="section">
         <div class="notice">
           <strong>Tentative</strong>
           <p>Xpressions'27 runs from 31 January to 1 February 2027. Registration details, including fees and deadlines, will be confirmed by the organising team.</p>
         </div>
-      </div>
-
-      <div class="section">
-        <h2>Pick the events you want to attend</h2>
-        <p class="sub">One tap per event, no form and no sign-in. Your interest helps the organisers plan venues and capacity, and you can withdraw it any time.</p>
-        <div class="hub" id="intentHub"></div>
+        <div class="btn-row"><button type="button" class="btn ghost" data-download="calendar">Add Xpressions'27 to your calendar</button></div>
       </div>
 
       <div class="section">
@@ -702,12 +707,12 @@ details p { padding-bottom: 16px; color: var(--muted); }
 })();
 </script>
 <!-- Interactive layer: config first, then the effects engine, core, and feature modules -->
-<script src="js/config.js?v=20261120b"></script>
-<script src="js/track.js?v=20261120b"></script>
-<script src="js/fx.js?v=20261120b"></script>
-<script src="js/fest.js?v=20261120b"></script>
-<script src="js/media.js?v=20261120b"></script>
-<script src="js/intent.js?v=20261120b"></script>
-<script src="js/game.js?v=20261120b"></script>
+<script src="js/config.js?v=20261125"></script>
+<script src="js/track.js?v=20261125"></script>
+<script src="js/fx.js?v=20261125"></script>
+<script src="js/fest.js?v=20261125"></script>
+<script src="js/media.js?v=20261125"></script>
+<script src="js/intent.js?v=20261125"></script>
+<script src="js/game.js?v=20261125"></script>
 
 </body></html>

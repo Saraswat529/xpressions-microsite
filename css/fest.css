@@ -297,13 +297,16 @@ details:hover { border-color: rgba(255, 165, 52, .6); }
 /* home: most wanted */
 .hot-list { display: grid; gap: 10px; }
 .hot-card {
-  display: grid; grid-template-columns: auto 1fr; grid-template-areas: "rank name" "bar bar" "n n"; gap: 6px 12px; align-items: center; text-align: left;
-  padding: 14px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c); color: var(--fg); font: inherit; cursor: pointer;
+  display: grid; grid-template-columns: auto 1fr; grid-template-areas: "rank name" "bar bar" "n n" "btn btn"; gap: 8px 12px; align-items: center; text-align: left;
+  padding: 14px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c); color: var(--fg); font: inherit;
   transition: translate .3s var(--ease-back), box-shadow .3s;
 }
 .hot-card:hover { translate: 0 -4px; box-shadow: 0 14px 34px -16px var(--c); }
 .hot-rank { grid-area: rank; font-family: var(--font-display); color: var(--c); font-size: 1.3rem; }
-.hot-name { grid-area: name; font-weight: 700; display: grid; }
+.hot-name { grid-area: name; font: inherit; font-weight: 700; display: grid; text-align: left; color: var(--fg); background: none; border: 0; padding: 0; cursor: pointer; }
+.hot-name:hover { color: var(--c); }
+.hot-card .hot-n { margin: 0; min-height: 0; }
+.hot-btn { grid-area: btn; justify-self: start; }
 .hot-name small { color: var(--muted); font-weight: 500; font-size: .78rem; }
 .hot-bar { grid-area: bar; height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
 .hot-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--c), var(--c2)); animation: xp-grow 1.2s var(--ease-out); }

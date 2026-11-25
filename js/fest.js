@@ -509,6 +509,35 @@
     plan();
   }
 
+  /* ---------- schedule download: Add to calendar (.ics) ---------- */
+  function calendarFile() {
+    const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+    const site = cfg.siteUrl || 'https://saraswat529.github.io/xpressions-microsite/';
+    return [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Xpressions27//Microsite//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+      'BEGIN:VEVENT', 'UID:xpressions27-20270131@saraswat529.github.io', 'DTSTAMP:' + stamp,
+      'DTSTART;VALUE=DATE:20270131', 'DTEND;VALUE=DATE:20270202',
+      'SUMMARY:' + EDITION + ' · XIM University',
+      'LOCATION:XIM University Old Campus\\, Xavier Square\\, Jayadev Vihar\\, Bhubaneswar 751013',
+      'DESCRIPTION:The management and cultural fest of XIM University. Events\\, interest registration and updates: ' + site,
+      'URL:' + site,
+      'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:' + EDITION + ' starts tomorrow', 'END:VALARM',
+      'END:VEVENT', 'END:VCALENDAR'
+    ].join('\r\n') + '\r\n';
+  }
+  d.addEventListener('click', (e) => {
+    const b = e.target.closest && e.target.closest('[data-download="calendar"]');
+    if (!b) return;
+    e.preventDefault();
+    const url = URL.createObjectURL(new Blob([calendarFile()], { type: 'text/calendar;charset=utf-8' }));
+    const a = d.createElement('a');
+    a.href = url; a.download = 'xpressions27.ics';
+    d.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    XP.toast('Schedule downloaded', 'Open xpressions27.ics to add 31 Jan to 1 Feb 2027 to your calendar, with a reminder the day before.', '📅');
+    XP.count('calendar');
+  });
+
   /* ---------- activity tracking for badges ---------- */
   function tracking() {
     d.addEventListener('toggle', (e) => {

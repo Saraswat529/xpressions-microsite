@@ -80,26 +80,45 @@
     document.documentElement.setAttribute('data-ab-' + exp.id, variant);
   }
 
+  /* ---------- device category ---------- */
+  const coarse = matchMedia('(pointer: coarse)').matches;
+  const shortSide = Math.min(screen.width || innerWidth, screen.height || innerHeight);
+  const device = /iPad|Tablet/i.test(navigator.userAgent) || (coarse && shortSide >= 600) ? 'tablet'
+    : (coarse || /Mobi|Android|iPhone/i.test(navigator.userAgent)) ? 'mobile' : 'desktop';
+
   /* ---------- logging ---------- */
   const canLog = LIVE && !optOut && !preview;
   let count = 0;
   let disabled = !!ss.get('trackOff');
+  // Before supabase/analytics.sql is installed, the database only knows the older log_event
+  // (no p_device). Fall back to it so no data is lost during the switchover.
+  let legacy = !!ss.get('trackLegacy');
+  function post(body) {
+    return fetch(cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/rpc/log_event', {
+      method: 'POST', keepalive: true,
+      headers: { apikey: cfg.supabaseAnonKey, Authorization: 'Bearer ' + cfg.supabaseAnonKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  }
   function send(kind, detail) {
-    if (!canLog || disabled || count >= 70) return;
+    if (!canLog || disabled || count >= 140) return;
     count++;
     const body = {
       p_visitor: vid, p_session: sess.id, p_kind: kind,
       p_source: sess.source, p_medium: sess.medium, p_campaign: sess.campaign, p_content: sess.content,
       p_variant: variant, p_detail: detail ? String(detail).slice(0, 120) : null
     };
+    if (!legacy) body.p_device = device;
     try {
-      fetch(cfg.supabaseUrl.replace(/\/+$/, '') + '/rest/v1/rpc/log_event', {
-        method: 'POST', keepalive: true,
-        headers: { apikey: cfg.supabaseAnonKey, Authorization: 'Bearer ' + cfg.supabaseAnonKey, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      }).then((r) => {
-        // Database functions not installed yet: stop trying for this session.
-        if (r.status === 404) { disabled = true; ss.set('trackOff', 1); }
+      post(body).then((r) => {
+        if (r.status !== 404) return;
+        // Each request decides for itself, so two events sent together cannot race each other.
+        if ('p_device' in body) {
+          legacy = true; ss.set('trackLegacy', 1);
+          delete body.p_device;
+          return post(body).then((r2) => { if (r2.status === 404) { disabled = true; ss.set('trackOff', 1); } });
+        }
+        disabled = true; ss.set('trackOff', 1);
       }).catch(() => { /* tracking must never affect the page */ });
     } catch (e) { /* ignore */ }
   }
@@ -114,23 +133,69 @@
   window.XPTrack = {
     log: send, once,
     variant: () => variant,
+    device: () => device,
     attribution: () => ({ source: sess.source, medium: sess.medium, campaign: sess.campaign, content: sess.content }),
     enabled: () => canLog
   };
 
   once('visit', (location.hash || '#home').slice(1));
 
+  /* Page views: every view counts (the site's pages are hash routes). */
   const pages = ['home', 'highlights', 'programme', 'competitions', 'register', 'faq'];
   const currentSection = () => { const h = (location.hash || '').slice(1); return pages.indexOf(h) > -1 ? h : 'home'; };
-  once('section', currentSection());
-  addEventListener('hashchange', () => once('section', currentSection()));
+  let lastSection = currentSection();
+  send('section', lastSection);
+  addEventListener('hashchange', () => {
+    const s = currentSection();
+    if (s !== lastSection) { lastSection = s; send('section', s); }
+    if (s === 'register' || s === 'competitions') startReg('page:' + s);
+  });
+
+  /* Engagement time: seconds the page is visible, flushed when hidden and every 30 s. */
+  let visibleSince = document.hidden ? 0 : Date.now();
+  let pending = 0, engagedTotal = 0;
+  function collect() { if (visibleSince) { pending += (Date.now() - visibleSince) / 1000; visibleSince = Date.now(); } }
+  function flush() {
+    collect();
+    const secs = Math.floor(pending);
+    if (secs < 1 || engagedTotal >= 1800) return;
+    const s2 = Math.min(secs, 1800 - engagedTotal);
+    pending -= secs; engagedTotal += s2;
+    send('engage', String(s2));
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { flush(); visibleSince = 0; } else visibleSince = Date.now();
+  });
+  addEventListener('pagehide', flush);
+  setInterval(() => { collect(); if (pending >= 30) flush(); }, 30000);
+
+  /* Registration start: the visitor reaches the event picker or opens an event's details. */
+  function startReg(how) {
+    if (sess.logged.reg_start) return;
+    sess.logged.reg_start = 1;
+    ss.set('session', sess);
+    send('reg_start', how);
+  }
+  if (currentSection() === 'register' || currentSection() === 'competitions') startReg('page:' + currentSection());
 
   document.addEventListener('click', (e) => {
-    const cta = e.target.closest && e.target.closest('[data-cta]');
+    const t = e.target.closest ? e.target : null;
+    if (!t) return;
+    const cta = t.closest('[data-cta]');
     if (cta) send('cta_click', cta.getAttribute('data-cta'));
-    const a = e.target.closest && e.target.closest('a[href^="http"]');
+    const dl = t.closest('[data-download]');
+    if (dl) send('download', dl.getAttribute('data-download'));
+    const a = t.closest('a[href^="http"]');
     if (a && a.hostname !== location.hostname) send('outbound', a.hostname.replace(/^www\./, ''));
+    const media = t.closest('[data-media]');
+    if (media) send('content', 'artist:' + media.getAttribute('data-media'));
+    const det = t.closest('[data-details]');
+    const card = t.closest('.comp.ev');
+    if (det || (card && !t.closest('a, button'))) { const id = det ? det.getAttribute('data-details') : card.getAttribute('data-event'); send('content', 'event:' + id); startReg('details'); }
+    if (t.closest('.figure img, .zoomable')) send('content', 'gallery');
+    if (t.closest('#fabGame')) send('content', 'hunt_open');
+    if (t.closest('#xpChip')) send('content', 'passport');
   }, true);
-  document.addEventListener('xp:intent', (e) => { if (e.detail && e.detail.on) send('intent', e.detail.id); });
+  document.addEventListener('xp:intent', (e) => { if (e.detail && e.detail.on) { startReg('tap'); send('intent', e.detail.id); } });
   document.addEventListener('xp:explorer', (e) => send('explorer', e.detail && e.detail.id));
 })();

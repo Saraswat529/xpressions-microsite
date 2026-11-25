@@ -281,9 +281,13 @@
     const top = events.filter((e) => counts[e.id] > 0).sort((a, b) => counts[b.id] - counts[a.id]).slice(0, 3);
     if (!top.length) { sec.hidden = true; return; }
     const max = counts[top[0].id];
+    // Improvement (25 Nov): one-tap interest buttons right on the home page, so visitors can
+    // register without first navigating to the Register page.
     host.innerHTML = top.map((ev, i) =>
-      '<button type="button" class="hot-card cat-' + ev.cat + '" data-details="' + ev.id + '"><span class="hot-rank">#' + (i + 1) + '</span><span class="hot-name">' + XP.esc(ev.name) + '<small>' + SHORT[ev.cat] + '</small></span>' +
-      '<span class="hot-bar"><i style="width:' + Math.max(8, counts[ev.id] / max * 100) + '%"></i></span><span class="hot-n"><b>' + counts[ev.id] + '</b> interested</span></button>').join('');
+      '<div class="hot-card cat-' + ev.cat + '"><span class="hot-rank">#' + (i + 1) + '</span>' +
+      '<button type="button" class="hot-name" data-details="' + ev.id + '">' + XP.esc(ev.name) + '<small>' + SHORT[ev.cat] + ' · details</small></button>' +
+      '<span class="hot-bar"><i style="width:' + Math.max(8, counts[ev.id] / max * 100) + '%"></i></span>' +
+      '<p class="hot-n ev-count" data-count-for="' + ev.id + '">' + countHTML(ev.id) + '</p>' + intentButton(ev, ' sm hot-btn') + '</div>').join('');
     sec.hidden = false;
     XP.reveal(sec);
   }

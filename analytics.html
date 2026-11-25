@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Xpressions'27 Analytics Report</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/report.css?v=20261125">
+</head>
+<body>
+<div class="top">
+  <div class="top-in">
+    <a href="index.html" aria-label="Back to the Xpressions'27 site"><img src="img/logo-xpressions-27.jpg" width="497" height="191" alt="ximb Xpressions 2027"></a>
+    <nav class="toc" aria-label="Sections">
+      <a href="#summary">Summary</a><a href="#channels">Channels</a><a href="#pages">Pages</a><a href="#funnel">Funnel</a><a href="#devices">Devices</a><a href="#search">Search</a><a href="#improvement">Improvement</a><a href="#findings">Findings</a><a href="campaign.html">Campaign toolkit</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="intro">
+    <p class="eyebrow">Step 5 · Measure, interpret and optimise</p>
+    <h1>Analytics report</h1>
+    <p class="muted">Live figures from the microsite's own anonymous analytics, covering campaign <code id="cName"></code>. Every number is computed from recorded sessions. <span id="since"></span></p>
+    <p class="status" id="status"><i></i><span>Connecting…</span></p>
+    <div class="notice" id="setup" hidden>
+      <strong>One-time setup needed</strong>
+      <p>The analytics functions are not in the database yet. In Supabase, open <b>SQL Editor</b>, paste the whole of <code>supabase/analytics.sql</code> and click <b>Run</b>. Then reload this page.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="summary">
+    <header><h2>Summary</h2><div class="row"><button class="btn sm" type="button" id="refresh">Refresh</button><button class="btn sm" type="button" id="jsonDl">Download report data</button></div></header>
+    <div class="kpis">
+      <div class="kpi"><b id="kUsers">–</b><span>Users (unique visitors)</span></div>
+      <div class="kpi"><b id="kSessions">–</b><span>Sessions</span></div>
+      <div class="kpi"><b id="kEngRate">–</b><span>Engagement rate</span></div>
+      <div class="kpi"><b id="kEngTime">–</b><span>Average engagement time per user</span></div>
+      <div class="kpi"><b id="kViews">–</b><span>Page views</span></div>
+      <div class="kpi"><b id="kVps">–</b><span>Views per session</span></div>
+      <div class="kpi"><b id="kCta">–</b><span>CTA clicks ("Register Your Intent Now")</span></div>
+      <div class="kpi"><b id="kStarts">–</b><span>Registration starts (sessions)</span></div>
+      <div class="kpi"><b id="kDone">–</b><span>Completed registrations of interest</span></div>
+      <div class="kpi"><b id="kConv">–</b><span>Conversion rate (sessions that registered)</span></div>
+      <div class="kpi"><b id="kDl">–</b><span>Schedule downloads (sessions)</span></div>
+    </div>
+    <details>
+      <summary class="small"><b>How each metric is defined</b></summary>
+      <div class="defs" style="margin-top:10px">
+        <p><b>User:</b> one browser, identified by a random anonymous ID.</p>
+        <p><b>Session:</b> one visit; a new one starts when the browser tab session ends or a tracked link is opened.</p>
+        <p><b>Engaged session:</b> lasted 10+ seconds in view, had 2+ page views, registered interest or downloaded the schedule (the GA4 definition).</p>
+        <p><b>Engagement rate:</b> engaged sessions ÷ sessions.</p>
+        <p><b>Engagement time:</b> seconds the page was actually visible on screen; capped at 30 minutes per session.</p>
+        <p><b>Page view:</b> each switch to Home, Highlights, Programme, Competitions, Register or FAQ (the site's pages are routes on one URL).</p>
+        <p><b>Registration start:</b> the session reached the event picker (Register or Competitions page) or opened an event's details.</p>
+        <p><b>Completed registration:</b> a tap on "Count Me In" (or similar) that was saved. This is interest, not a ticket.</p>
+        <p><b>Conversion rate:</b> sessions with at least one completed registration ÷ sessions.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel" id="channels">
+    <header><h2>Traffic and conversion by source / medium</h2></header>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source / medium</th><th class="num">Users</th><th class="num">Sessions</th><th class="num">Engagement rate</th><th class="num">Avg. engagement</th><th class="num">CTA click rate</th><th class="num">Reg. starts</th><th class="num">Conversions</th><th class="num">Conversion rate</th></tr></thead>
+        <tbody id="chRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" id="pages">
+    <header><h2>Which pages and content attract attention</h2></header>
+    <div class="split">
+      <div>
+        <h3>Views by page</h3>
+        <div class="days" id="pageBars"></div>
+      </div>
+      <div>
+        <h3>Most-clicked content</h3>
+        <div class="table-wrap"><table><thead><tr><th>Item</th><th class="num">Clicks</th><th class="num">Sessions</th></tr></thead><tbody id="contentRows"></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="funnel">
+    <header><h2>The intended journey and where visitors abandon it</h2></header>
+    <p class="muted small">Intended journey: land on the site → engage → reach the event picker → start registering → register interest in an event.</p>
+    <div class="funnel" id="funnelSteps"></div>
+    <h3>Last page seen by visitors who left without registering</h3>
+    <div class="table-wrap"><table><thead><tr><th>Exit page</th><th class="num">Sessions</th><th class="num">Had seen the event picker</th></tr></thead><tbody id="exitRows"></tbody></table></div>
+  </section>
+
+  <section class="panel" id="devices">
+    <header><h2>Mobile versus desktop</h2></header>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Device</th><th class="num">Users</th><th class="num">Sessions</th><th class="num">Engagement rate</th><th class="num">Avg. engagement</th><th class="num">Views per session</th><th class="num">CTA click rate</th><th class="num">Conversion rate</th></tr></thead>
+        <tbody id="devRows"></tbody>
+      </table>
+    </div>
+    <p class="muted small">"Unknown" covers sessions recorded before device tracking was added on 25 Nov.</p>
+  </section>
+
+  <section class="panel" id="search">
+    <header><h2>Search: impressions, clicks and CTR</h2></header>
+    <p class="muted small">Google does not share search data with websites directly. These figures come from Google Search Console and are added here by the team. Setup: open <a href="https://search.google.com/search-console" target="_blank" rel="noopener">Search Console</a>, add the URL-prefix property <code>https://saraswat529.github.io/xpressions-microsite/</code>, verify it with the HTML-file method, then submit <code>sitemap.xml</code>. Data appears after Google crawls the site, usually within a few days.</p>
+    <div class="table-wrap"><table><thead><tr><th>Period</th><th class="num">Impressions</th><th class="num">Clicks</th><th class="num">CTR</th><th class="num">Avg. position</th><th>Top query</th></tr></thead><tbody id="searchRows"></tbody></table></div>
+    <form class="grid" id="searchForm" novalidate>
+      <label>From <input type="date" name="start" required></label>
+      <label>To <input type="date" name="end" required></label>
+      <label>Impressions <input type="number" name="impr" min="0" required></label>
+      <label>Clicks <input type="number" name="clicks" min="0" required></label>
+      <label>Avg. position <input type="number" name="pos" min="0" step="0.1"></label>
+      <label>Top query <input name="query" maxlength="120"></label>
+      <label>Team passcode <input type="password" name="passcode" autocomplete="off" required></label>
+      <div class="row"><button class="btn primary" type="submit">Add figures</button><p id="searchMsg" role="status"></p></div>
+    </form>
+  </section>
+
+  <section class="panel" id="improvement">
+    <header><h2>Improvement made and its observed effect</h2></header>
+    <div id="impBody"></div>
+  </section>
+
+  <section class="panel" id="findings">
+    <header><h2>Key findings, recommendations and limitations</h2></header>
+    <h3>What the data says</h3>
+    <ul class="findings" id="autoFindings"><li class="muted">Waiting for data.</li></ul>
+    <h3>Recommended changes</h3>
+    <ul class="findings" id="recs"></ul>
+    <h3>Limitations</h3>
+    <ul class="findings" id="limits"></ul>
+  </section>
+</div>
+
+<script src="js/config.js?v=20261125"></script>
+<script src="js/analytics.js?v=20261125"></script>
+</body>
+</html>
