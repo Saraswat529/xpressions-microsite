@@ -44,7 +44,7 @@
     $('kViews').textContent = t.views;
     $('kVps').textContent = t.sessions ? (t.views / t.sessions).toFixed(2) : '–';
     $('kCta').textContent = t.cta_clicks;
-    $('kStarts').textContent = t.reg_start_sessions;
+    $('kStarts').textContent = report && report.funnel ? Math.max(report.funnel.reached_events, report.funnel.reg_start) : t.reg_start_sessions;
     $('kDone').textContent = t.completions;
     $('kConv').textContent = pct(t.converted_sessions, t.sessions);
     $('kDl').textContent = t.download_sessions;
@@ -53,8 +53,8 @@
   function renderChannels(rows) {
     $('chRows').innerHTML = rows.length ? rows.map((c) =>
       '<tr><td>' + label(c.source, c.medium) + '</td><td class="num">' + c.users + '</td><td class="num">' + c.sessions + '</td><td class="num">' + pct(c.engaged_sessions, c.sessions) + '</td><td class="num">' +
-      (c.sessions_with_time ? secs(c.engage_total / c.sessions) : 'n/a') + '</td><td class="num">' + pct(c.cta_sessions, c.sessions) + '</td><td class="num">' + c.reg_start_sessions + '</td><td class="num">' + c.converted_sessions + '</td><td class="num">' + pct(c.converted_sessions, c.sessions) + '</td></tr>').join('')
-      : '<tr><td colspan="9" class="muted">No sessions yet.</td></tr>';
+      (c.sessions_with_time ? secs(c.engage_total / c.sessions) : 'n/a') + '</td><td class="num">' + pct(c.cta_sessions, c.sessions) + '</td><td class="num">' + c.converted_sessions + '</td><td class="num">' + pct(c.converted_sessions, c.sessions) + '</td></tr>').join('')
+      : '<tr><td colspan="8" class="muted">No sessions yet.</td></tr>';
   }
 
   function renderPages(pages, content) {
@@ -70,12 +70,13 @@
   }
 
   function renderFunnel(f, exits) {
+    // A strictly sequential funnel. "Engaged" is reported separately (it is not a step in
+    // the journey: a visitor can land directly on the Register page).
+    const started = Math.max(f.reached_events, f.reg_start, f.converted);
     const steps = [
       ['Landed', 'Sessions that opened the site', f.landed],
-      ['Engaged', '10+ s in view, 2+ pages or an action', f.engaged],
-      ['Reached the event picker', 'Register or Competitions page', f.reached_events],
-      ['Started registering', 'Picker reached or event details opened', f.reg_start],
-      ['Registered interest', 'Tapped "Count Me In" for an event', f.converted]
+      ['Started registering', 'Reached the event picker (Register or Competitions) or opened an event\'s details', started],
+      ['Registered interest', 'Tapped "Count Me In" for at least one event', f.converted]
     ];
     let worst = -1, worstIdx = -1;
     $('funnelSteps').innerHTML = steps.map((s, i) => {
@@ -87,6 +88,7 @@
         '<div class="f-drop">' + (i ? (prev ? '−' + (drop * 100).toFixed(0) + '% from step ' + i : '–') : 'start') + '</div></div>';
     }).join('');
     if (worstIdx > 0) { const el = $('funnelSteps').querySelector('[data-i="' + worstIdx + '"] .f-drop'); if (el) el.classList.add('bad'); }
+    $('funnelSteps').insertAdjacentHTML('beforeend', '<p class="muted small">Engaged sessions (10+ s in view, 2+ pages or an action): ' + f.engaged + ' of ' + f.landed + ' (' + pct(f.engaged, f.landed) + ').</p>');
     $('exitRows').innerHTML = exits.length ? exits.map((x) => '<tr><td>' + esc(PAGE[x.page] || x.page) + '</td><td class="num">' + x.sessions + '</td><td class="num">' + x.after_seeing_events + '</td></tr>').join('')
       : '<tr><td colspan="3" class="muted">No data yet.</td></tr>';
     return { steps, worstIdx, worst };
@@ -161,9 +163,8 @@
     if (fun.worstIdx > 0) {
       const s = fun.steps[fun.worstIdx], p = fun.steps[fun.worstIdx - 1];
       out.push('The biggest drop-off is between <b>' + p[0].toLowerCase() + '</b> and <b>' + s[0].toLowerCase() + '</b>: ' + p[2] + ' → ' + s[2] + ' sessions (−' + (fun.worst * 100).toFixed(0) + '%). This is where visitors abandon the intended journey.');
-      if (fun.worstIdx >= 3) recs.push('Reduce friction at the event picker: keep the picker at the top of the Register page, show one-tap buttons on Home, and test a shorter list of the most popular events first (now implemented; see the improvement section).');
-      if (fun.worstIdx === 2) recs.push('More visitors need to reach the event picker: make the hero button wording more specific (the A/B test) and link the "Most wanted" cards straight to the picker.');
-      if (fun.worstIdx === 1) recs.push('Many visits bounce in under 10 seconds: make the first screen load faster on mobile and lead with the dates and a single clear action.');
+      if (fun.worstIdx === 2) recs.push('Reduce friction at the event picker: put the picker at the top of the Register page and add one-tap buttons on Home (implemented on 25 Nov; see the improvement section). Next, test showing the five most popular events first instead of all 29.');
+      if (fun.worstIdx === 1) recs.push('Most visitors never reach the event picker: give the home page a single clear action above the fold, keep the one-tap "Most wanted" buttons, and make the hero button wording more specific (see the A/B test).');
     }
     const dev = rep.by_device.filter((r) => r.device !== 'unknown');
     const mob = dev.find((r) => r.device === 'mobile'), desk = dev.find((r) => r.device === 'desktop');
