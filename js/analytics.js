@@ -178,8 +178,8 @@
     if (A && B) out.push('A/B headline test: A ("' + esc((cfg.experiment.a || {}).label || 'A') + '") ' + pct(A.cta_sessions, A.sessions) + ' CTA click rate over ' + A.sessions + ' sessions, vs B ("' + esc((cfg.experiment.b || {}).label || 'B') + '") ' + pct(B.cta_sessions, B.sessions) + ' over ' + B.sessions + '. ' + ((A.sessions < 30 || B.sessions < 30) ? 'Too few sessions to declare a winner.' : ''));
     if (!search.length) recs.push('Verify the site in Google Search Console and submit sitemap.xml, so search impressions, clicks and CTR can be reported.');
     const conv = ch.filter((c) => c.sessions >= 5 && c.source !== '(direct)').sort((a, b) => rate(b.converted_sessions, b.sessions) - rate(a.converted_sessions, a.sessions))[0];
-    recs.push(conv ? 'Put more effort into ' + label(conv.source, conv.medium) + ', which converts best among tagged channels (' + pct(conv.converted_sessions, conv.sessions) + '), and reuse its creative in other channels.'
-      : 'Once each tagged channel has at least 5 sessions, put more effort into the one with the best conversion rate and reuse its creative.');
+    recs.push(conv && conv.converted_sessions > 0 ? 'Put more effort into ' + label(conv.source, conv.medium) + ', which converts best among tagged channels (' + pct(conv.converted_sessions, conv.sessions) + '), and reuse its creative in other channels.'
+      : 'No tagged channel has converted yet. Once each has at least 5 sessions, put more effort into the one with the best conversion rate and reuse its creative.');
     $('autoFindings').innerHTML = out.map((x) => '<li>' + x + '</li>').join('');
     $('recs').innerHTML = recs.map((x) => '<li>' + x + '</li>').join('');
     const limits = [
